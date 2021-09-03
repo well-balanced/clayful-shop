@@ -3,5 +3,12 @@
     "editor.tabSize": 2,
     "[javascript]": { "editor.formatOnSave": true },
     "[typescript]": { "editor.formatOnSave": true },
-    "[typescriptreact]": { "editor.formatOnSave": true }
+    "[typescriptreact]": { "editor.formatOnSave": true },
+    "emojisense.languages": {
+        "markdown": true,
+        "git-commit": false,
+        "plaintext": false,
+        "json": true,
+        "javascript": true
+    },
 }
