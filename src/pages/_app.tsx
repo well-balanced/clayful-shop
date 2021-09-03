@@ -15,7 +15,8 @@ const globalStyle = css`
   }
 
   a {
-    color: #3d73ff;
+    color: #111111;
+    text-decoration: none;
   }
 `
 

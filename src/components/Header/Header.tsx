@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import Link from 'next/link'
+import RightButtons from 'components/RightButtons'
 
 const rootStyle = css`
   margin: 0 auto;
@@ -32,6 +33,7 @@ const Header = () => {
           <Link href="/">
             <div css={titleWrapperStyle}>🎉 Clayful Shop</div>
           </Link>
+          <RightButtons />
         </nav>
       </header>
     </>
