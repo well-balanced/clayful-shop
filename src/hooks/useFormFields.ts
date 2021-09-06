@@ -7,7 +7,10 @@ function useFormFields<T>(initialValues: T) {
       const { value } = e.target
       setFormFields((prev: T) => ({ ...prev, [key]: value }))
     }
-  return { formFields, createChangeHanlder }
+  const resetFormFields = () => {
+    setFormFields(() => initialValues)
+  }
+  return { formFields, createChangeHanlder, resetFormFields }
 }
 
 export default useFormFields

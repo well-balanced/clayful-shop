@@ -34,9 +34,12 @@ export default async function handler(
   { body }: NextApiRequest,
   res: NextApiResponse<Payload>,
 ) {
+  body.name = { full: body.name }
   const { data, errorCode, statusCode } = await clayfulMatate<ClayfulPayload>(
     '/me',
     body,
   )
-  res.status(statusCode).json({ statusCode, data, errorCode })
+
+  const payload = { statusCode, data, errorCode }
+  res.status(statusCode).json(payload)
 }

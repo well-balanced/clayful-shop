@@ -1,9 +1,11 @@
 import useFormFields from 'hooks/useFormFields'
 import React from 'react'
 import SignupFormField from './SignupFormField'
+import { useState } from 'react'
 
 const SignupForm = () => {
-  const { formFields, createChangeHanlder } = useFormFields({
+  const [error, setError] = useState(null)
+  const { formFields, createChangeHanlder, resetFormFields } = useFormFields({
     userId: '',
     email: '',
     password: '',
@@ -11,9 +13,20 @@ const SignupForm = () => {
     phone: '',
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  if (error) return <div>{error}</div>
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    const { errorCode } = await fetch('/api/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formFields),
+    }).then(res => res.json())
+    errorCode ? setError(errorCode) : resetFormFields()
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <SignupFormField
@@ -46,6 +59,7 @@ const SignupForm = () => {
         value={formFields.phone}
         chnageHandler={createChangeHanlder}
       />
+      <input type="submit" value="Submit" />
     </form>
   )
 }
