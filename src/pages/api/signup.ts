@@ -30,7 +30,7 @@ interface Payload {
   statusCode?: any
 }
 
-export default async function handler(
+async function handler(
   { body }: NextApiRequest,
   res: NextApiResponse<Payload>,
 ) {
@@ -38,3 +38,5 @@ export default async function handler(
   const payload = await clayfulPost<ClayfulPayload>('/me', body)
   res.status(payload.statusCode).json(payload)
 }
+
+export default handler
