@@ -11,7 +11,7 @@ const instance = axios.create({
   },
 })
 
-interface MutatePayload<T> {
+interface PostPayload<T> {
   data?: T
   errorCode?: string
   statusCode: number
@@ -21,7 +21,7 @@ export default async <T>(
   path: string,
   data?: any,
   config?: AxiosRequestConfig,
-): Promise<MutatePayload<T>> => {
+): Promise<PostPayload<T>> => {
   try {
     const res = await instance.post(path, data, config)
     return { data: res.data, statusCode: res.status }

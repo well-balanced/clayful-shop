@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import clayfulMatate from 'utils/clayfulMutate'
+import clayfulPost from 'utils/clayfulPost'
 
 interface ClayfulPayload {
   address: {
@@ -35,11 +35,6 @@ export default async function handler(
   res: NextApiResponse<Payload>,
 ) {
   body.name = { full: body.name }
-  const { data, errorCode, statusCode } = await clayfulMatate<ClayfulPayload>(
-    '/me',
-    body,
-  )
-
-  const payload = { statusCode, data, errorCode }
-  res.status(statusCode).json(payload)
+  const payload = await clayfulPost<ClayfulPayload>('/me', body)
+  res.status(payload.statusCode).json(payload)
 }
