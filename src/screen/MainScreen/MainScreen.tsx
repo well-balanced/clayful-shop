@@ -31,18 +31,14 @@ const MainScreen = () => {
     data && setProducts([...products, ...data.data])
   }, [data])
 
-  const fetchProducts = () => {
-    setPage(page + 1)
+  const fetchProducts = (e: any) => {
+    e.previousPosition && setPage(page + 1)
   }
 
   return (
     <div css={rootStyle}>
       <section css={mainSectionStyle}></section>
-      <ProductGrid
-        products={products}
-        pageSize={2}
-        onLoadMore={fetchProducts}
-      />
+      <ProductGrid products={products} onLoadMore={fetchProducts} />
     </div>
   )
 }
