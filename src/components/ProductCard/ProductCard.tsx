@@ -1,5 +1,6 @@
 import { Product } from 'pages/api/products'
 import { css } from '@emotion/react'
+import Router from 'next/router'
 
 const contentWrapperStyle = css`
   width: 100%;
@@ -38,7 +39,10 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
-    <div css={() => rootStyle(product.thumbnail)}>
+    <div
+      css={() => rootStyle(product.thumbnail)}
+      onClick={() => Router.push(`/products/${product._id}`)}
+    >
       <div id="content-wrapper" css={contentWrapperStyle}>
         <p>
           {product.name}

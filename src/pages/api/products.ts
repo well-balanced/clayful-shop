@@ -63,8 +63,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
       searchMatch: 'partial',
     },
   })
+  payload.data = payload.data.map(attachResizingParams)
 
   res.status(payload.statusCode).json(payload)
 }
 
 export default handler
+
+const attachResizingParams = (product: Product) => {
+  /**
+   * 썸네일 이미지 URL 뒤에 리사이징 파라미터 추가
+   * */
+  return {
+    ...product,
+    thumbnail: {
+      ...product.thumbnail,
+      url: product.thumbnail.url + '?width=240&height=240',
+    },
+  }
+}
