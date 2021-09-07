@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import clayfulPost from 'utils/clayfulPost'
 import { setCookie } from 'utils/cookies'
-import { takeCoverage } from 'v8'
 
 interface ClayfulPayload {
   customer: string
@@ -15,10 +14,7 @@ interface Payload {
   statusCode?: any
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Payload>,
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
   const { userId, password } = req.body
   const payload = await clayfulPost<ClayfulPayload>('/customers/auth', {
     ...(userId.includes('@') ? { email: userId } : { userId }),
@@ -29,3 +25,5 @@ export default async function handler(
   }
   res.status(payload.statusCode).json(payload)
 }
+
+export default handler

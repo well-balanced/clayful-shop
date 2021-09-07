@@ -1,11 +1,19 @@
 import NextCutsomButtonLink from './ButtonLink'
+import { css } from '@emotion/react'
+
+const rootStyle = css`
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+`
 
 const RightButtons = () => {
   return (
-    <div>
-      <NextCutsomButtonLink href="/login">로그인</NextCutsomButtonLink>
-      <NextCutsomButtonLink href="/signup">회원가입</NextCutsomButtonLink>
-      <NextCutsomButtonLink href="/cart">장바구니</NextCutsomButtonLink>
+    <div css={rootStyle}>
+      <NextCutsomButtonLink href="/login">LOGIN</NextCutsomButtonLink>
+      <NextCutsomButtonLink href="/signup">SIGNUP</NextCutsomButtonLink>
+      <NextCutsomButtonLink href="/cart">CART</NextCutsomButtonLink>
     </div>
   )
 }
