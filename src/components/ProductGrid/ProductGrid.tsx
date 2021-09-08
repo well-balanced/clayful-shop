@@ -2,8 +2,6 @@ import { Product } from 'pages/api/products'
 import ProductCard from 'components/ProductCard'
 import { css } from '@emotion/react'
 import InfiniteScroll from 'components/InfiniteScroll'
-import Link from 'next/link'
-import { forwardRef } from 'react'
 
 const gridContainerStyle = css`
   display: grid;

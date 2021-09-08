@@ -6,7 +6,7 @@ import Router from 'next/router'
 
 const LoginForm = () => {
   const [error, setError] = useState(null)
-  const { formFields, createChangeHanlder, resetFormFields } = useFormFields({
+  const [formFields, createChangeHanlder] = useFormFields({
     userId: '',
     password: '',
   })
@@ -31,14 +31,16 @@ const LoginForm = () => {
       <LoginFormField
         label="아이디 혹은 이메일"
         field="userId"
-        value={formFields.userId}
-        chnageHandler={createChangeHanlder}
+        value={formFields['userId']}
+        // @ts-ignore
+        changeHandler={createChangeHanlder}
       />
       <LoginFormField
         label="비밀번호"
         field="password"
-        value={formFields.password}
-        chnageHandler={createChangeHanlder}
+        value={formFields['password']}
+        // @ts-ignore
+        changeHandler={createChangeHanlder}
       />
       <input type="submit" value="Submit" />
     </form>
