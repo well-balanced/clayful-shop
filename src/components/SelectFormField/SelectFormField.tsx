@@ -1,4 +1,4 @@
-import { OptionDetail } from 'pages/products/types'
+import { OptionDetail } from 'types'
 import { css } from '@emotion/react'
 import { useEffect, useRef } from 'react'
 
@@ -44,7 +44,7 @@ const SelectFormField = ({
     if (shouldAddItem) {
       ref.current.value = defaultValue
     }
-  }, [shouldAddItem])
+  }, [defaultValue, shouldAddItem])
 
   return (
     <div css={rootStyle}>

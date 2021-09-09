@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 const SignupForm = () => {
   const [error, setError] = useState(null)
-  const { formFields, createChangeHanlder, resetFormFields } = useFormFields({
+  const [formFields, createChangeHanlder, resetFormFields] = useFormFields({
     userId: '',
     email: '',
     password: '',

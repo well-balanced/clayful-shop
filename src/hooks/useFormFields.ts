@@ -1,6 +1,14 @@
-import { useState } from 'react'
+import React, { useState, Dispatch, SetStateAction } from 'react'
 
-function useFormFields<T, R = HTMLInputElement>(initialValues: T) {
+type UseFormFieldsReturn<T, R> = [
+  T,
+  (key: keyof T) => (e: React.ChangeEvent<R>) => void,
+  () => void,
+]
+
+function useFormFields<T, R = HTMLInputElement>(
+  initialValues: T,
+): UseFormFieldsReturn<T, R> {
   const [formFields, setFormFields] = useState<T>(initialValues)
   const createChangeHanlder = (key: keyof T) => (e: React.ChangeEvent<R>) => {
     // @ts-ignore

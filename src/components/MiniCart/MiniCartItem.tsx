@@ -27,7 +27,8 @@ const MiniCartItem = ({ options, items, setItems }: MiniCartItemProps) => {
         : item,
     )
     setItems(newItems)
-  }, [count])
+  }, [count, items, options, setItems])
+
   return (
     <div css={rootStyle}>
       {textContent}

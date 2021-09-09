@@ -1,14 +1,13 @@
 import { GetServerSideProps } from 'next'
 import clayfulGet from 'utils/clayfulGet'
-import { ProductDetail } from './types'
+import { ProductDetail } from 'types'
 import ProductDetailScreen from 'screen/ProductDetailScreen'
+import type { NextPage } from 'next'
 
-interface ProductDetailPageProps {
-  product: ProductDetail
-  err: string | null
-}
-
-function ProductDetailPage({ product, err }: ProductDetailPageProps) {
+const ProductDetailPage: NextPage<keyof GetServerSideProps> = ({
+  product,
+  err,
+}) => {
   if (err) return <div>{err}</div>
   return <ProductDetailScreen product={product} />
 }

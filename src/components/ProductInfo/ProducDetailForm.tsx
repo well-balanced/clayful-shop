@@ -5,7 +5,7 @@ import { MiniCart } from 'components/MiniCart'
 import isEqual from 'lodash/isEqual'
 import { usePriceState } from './PriceContext'
 import { css } from '@emotion/react'
-import { ProductDetail } from 'pages/products/types'
+import { ProductDetail } from 'types'
 import { BaseErrorBox } from 'components/ErrorBox'
 
 const totalPriceWrapperStyle = css`
@@ -61,10 +61,17 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
         )
         setTotal(price * totalQuantity)
       }
-      // @ts-ignore
       resetOptionFields()
     }
-  }, [miniCartItems, shouldAddItem])
+  }, [
+    miniCartItems,
+    optionFields,
+    price,
+    product,
+    resetOptionFields,
+    setTotal,
+    shouldAddItem,
+  ])
 
   const handleOrderButtonClick = async () => {
     const promises = miniCartItems.map(item =>
@@ -97,7 +104,6 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
         <SelectFormField
           shouldAddItem={shouldAddItem}
           option={option}
-          // @ts-ignore
           onChange={createOptionHanlder}
           defaultValue={defaultValue}
           key={option._id}
