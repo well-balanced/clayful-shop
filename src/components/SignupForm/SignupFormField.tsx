@@ -2,7 +2,7 @@ interface SignupFormFieldProps {
   label: string
   field: string
   value: string
-  chnageHandler: (
+  changeHandler: (
     key: string,
   ) => (e: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -11,7 +11,7 @@ const SignupFormField = ({
   label,
   field,
   value,
-  chnageHandler,
+  changeHandler,
 }: SignupFormFieldProps) => {
   return (
     <div>
@@ -20,7 +20,7 @@ const SignupFormField = ({
         type={field}
         id={field}
         value={value}
-        onChange={chnageHandler(field)}
+        onChange={changeHandler(field)}
       ></input>
     </div>
   )

@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app'
 import Layout from 'components/Layout'
 import { css, Global } from '@emotion/react'
+import { UserInfoProvider } from 'context/UserInfoContext'
 
 const globalStyle = css`
   html,
@@ -26,7 +27,9 @@ function MyApp(props: AppProps) {
     <>
       <Global styles={globalStyle} />
       <Layout>
-        <Component {...pageProps} />
+        <UserInfoProvider>
+          <Component {...pageProps} />
+        </UserInfoProvider>
       </Layout>
     </>
   )

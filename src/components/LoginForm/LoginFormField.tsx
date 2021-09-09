@@ -2,7 +2,7 @@ interface LoginFormFieldProps {
   label: string
   field: string
   value: string
-  chnageHandler: (
+  changeHandler: (
     key: string,
   ) => (e: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -11,7 +11,7 @@ const LoginFormField = ({
   label,
   field,
   value,
-  chnageHandler,
+  changeHandler,
 }: LoginFormFieldProps) => {
   return (
     <div>
@@ -20,7 +20,7 @@ const LoginFormField = ({
         type={field}
         id={field}
         value={value}
-        onChange={chnageHandler(field)}
+        onChange={changeHandler(field)}
       ></input>
     </div>
   )
