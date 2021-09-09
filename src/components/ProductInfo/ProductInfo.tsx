@@ -18,12 +18,6 @@ const priceStyle = css`
   font-weight: 400;
 `
 
-const totalPriceWrapperStyle = css`
-  display: flex;
-  justify-content: space-between;
-  width: 200px;
-`
-
 interface ProductInfoProps {
   product: ProductDetail
 }
@@ -40,15 +34,8 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       <h1 css={titleStyle}>{product.name}</h1>
       <h1 css={priceStyle}>{product.price.original.formatted}</h1>
       <PriceProvider total={total} price={price} setTotal={setTotal}>
-        <ProductDetailForm options={product.options} />
+        {product && <ProductDetailForm product={product} />}
       </PriceProvider>
-      <div css={totalPriceWrapperStyle}>
-        <div style={{ fontSize: '1rem' }}>총 상품 금액</div>
-        <div style={{ fontSize: '1rem' }}>
-          {' '}
-          {total.toLocaleString('ko-KR') + '원'}
-        </div>
-      </div>
     </div>
   )
 }

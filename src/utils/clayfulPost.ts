@@ -8,6 +8,7 @@ const instance = axios.create({
   headers: {
     Authorization: `Bearer ${CLAYFUL_ACCESS_TOKEN}`,
     'Accept-Encoding': 'gzip',
+    'Content-Type': 'application/json',
   },
 })
 

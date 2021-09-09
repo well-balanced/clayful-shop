@@ -32,7 +32,7 @@ export interface ProductDetail {
   totalReview: RatingDetail
   catalogs: CatelogDetail[]
   options: OptionDetail[]
-  variants: [[Object]]
+  variants: VariantDetail[]
   bundles: []
   meta: { spec: null; rate: null }
   createdAt: DateDetail
@@ -86,4 +86,15 @@ interface DateDetail {
   raw: string
   formatted: string
   ago: string
+}
+
+interface VariantDetail {
+  _id: string
+  available: boolean
+  types: VariantTypeDetail[]
+}
+
+interface VariantTypeDetail {
+  option: { name: string; prooirity: number; _id: string }
+  variation: { value: string; priority: number; _id: string }
 }
