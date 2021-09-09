@@ -30,7 +30,7 @@ const Header = () => {
     <>
       <header css={rootStyle}>
         <nav css={toolbarStyle}>
-          <Link href="/">
+          <Link href="/" passHref>
             <div css={titleWrapperStyle} />
           </Link>
           <RightButtons />

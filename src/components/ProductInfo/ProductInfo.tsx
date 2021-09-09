@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { ProductDetail } from 'pages/products/types'
+import { ProductDetail } from 'types'
 import { useState } from 'react'
 import ProductDetailForm from './ProducDetailForm'
 import { PriceProvider } from './PriceContext'

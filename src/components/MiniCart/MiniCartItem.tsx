@@ -19,6 +19,7 @@ const MiniCartItem = ({ options, items, setItems }: MiniCartItemProps) => {
     return idx ? `${prev} ${curr}` : ''
   }, '')
   const [count, setCount] = useState(1)
+
   useEffect(() => {
     options.quantity = count
     const newItems = items.map(item =>
@@ -27,7 +28,8 @@ const MiniCartItem = ({ options, items, setItems }: MiniCartItemProps) => {
         : item,
     )
     setItems(newItems)
-  }, [count])
+  }, [count, items, options, setItems])
+
   return (
     <div css={rootStyle}>
       {textContent}

@@ -35,14 +35,12 @@ const LoginForm = () => {
         label="아이디 혹은 이메일"
         field="userId"
         value={formFields['userId']}
-        // @ts-ignore
         changeHandler={createChangeHanlder}
       />
       <LoginFormField
         label="비밀번호"
         field="password"
         value={formFields['password']}
-        // @ts-ignore
         changeHandler={createChangeHanlder}
       />
       <input type="submit" value="Submit" />
