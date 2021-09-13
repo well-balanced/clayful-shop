@@ -18,7 +18,7 @@ interface PostPayload<T> {
   statusCode: number
 }
 
-export default async <T>(
+const clayfulPost = async <T>(
   path: string,
   data?: any,
   config?: AxiosRequestConfig,
@@ -32,3 +32,5 @@ export default async <T>(
     return { errorCode, statusCode }
   }
 }
+
+export default clayfulPost
