@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 import { css } from '@emotion/react'
 import { usePriceState } from 'components/ProductInfo/PriceContext'
 
@@ -35,7 +35,7 @@ interface QuantityBoxProps {
   setItems: (arg: any) => void
 }
 
-const QuantityBox = ({ options, setItems }: QuantityBoxProps) => {
+const ProductDetailQuantityBox = ({ options, setItems }: QuantityBoxProps) => {
   const { price, total, setTotal } = usePriceState()
 
   const handleIncrease = () => {
@@ -75,4 +75,4 @@ const QuantityBox = ({ options, setItems }: QuantityBoxProps) => {
   )
 }
 
-export default QuantityBox
+export default ProductDetailQuantityBox

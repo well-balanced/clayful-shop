@@ -1,1 +1,1 @@
-export { default } from './QuantityBox'
+export { default as ProductDetailQuantityBox } from './ProductDetailQuantityBox'
