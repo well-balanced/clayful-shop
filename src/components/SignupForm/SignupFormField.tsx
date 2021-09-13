@@ -20,7 +20,7 @@ const SignupFormField = ({
         type={field}
         id={field}
         value={value}
-        onChange={changeHandler(field)}
+        onChange={() => changeHandler(field)}
       ></input>
     </div>
   )

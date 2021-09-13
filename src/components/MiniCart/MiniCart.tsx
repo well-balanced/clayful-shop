@@ -10,7 +10,7 @@ const MiniCart = ({ items, setItems }: MiniCartProps) => {
     <div>
       {items.map((options, idx, items) => (
         <MiniCartItem
-          options={{ ...options, quantity: 1 }}
+          options={options}
           items={items}
           setItems={setItems}
           key={idx}

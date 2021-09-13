@@ -21,7 +21,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
     req.body,
     { headers: { 'Authorization-Customer': token } },
   )
-  console.log(payload)
   res.status(payload.statusCode).json(payload)
 }
 

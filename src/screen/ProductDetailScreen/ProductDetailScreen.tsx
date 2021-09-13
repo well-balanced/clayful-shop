@@ -29,7 +29,7 @@ const ProductDetailScreen = ({ product }: ProductDetailScreenProps) => {
   const [defaultCatalog] = product.catalogs
   return (
     <div css={rootStyle}>
-      <div css={() => catalogImageStyle(defaultCatalog.image.url)} />
+      <div css={() => catalogImageStyle(defaultCatalog?.image?.url)} />
       <ProductInfo product={product} />
       <div dangerouslySetInnerHTML={{ __html: product.description }} />
     </div>

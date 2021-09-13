@@ -7,6 +7,7 @@ import { usePriceState } from './PriceContext'
 import { css } from '@emotion/react'
 import { ProductDetail } from 'types'
 import { BaseErrorBox } from 'components/ErrorBox'
+import { omit } from 'utils'
 
 const totalPriceWrapperStyle = css`
   display: flex;
@@ -21,6 +22,8 @@ interface ProductDetailFormProps {
 const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
   const [errorInfo, setErrorInfo] = useState({ open: false, errorCode: null })
   const [miniCartItems, setMiniCartItems] = useState([])
+  const defaultValue = '옵션을 선택해주세요'
+  const defaultQuantity = 1
   const [optionFields, createOptionHanlder, resetOptionFields] = useFormFields<
     Object,
     HTMLSelectElement
@@ -29,30 +32,35 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
       (prev, curr) => {
         return { ...prev, [curr._id]: null }
       },
-      { quantity: 1 },
+      { quantity: defaultQuantity },
     ),
   )
   const { price, total, setTotal } = usePriceState()
 
-  const defaultValue = '옵션을 선택해주세요'
-
   /**
    * 모든 필드를 입력하면 미니카트에 항목이 담긴다.
    */
-  const shouldAddItem = Object.values(optionFields).every(
-    val => ![null, defaultValue].includes(val),
-  )
+  const values = Object.values(omit(optionFields, 'quantity'))
+  const shouldAddItem =
+    values.length &&
+    // @ts-ignore
+    values.every(val => ![null, undefined, defaultValue].includes(val))
+
   useEffect(() => {
     if (shouldAddItem) {
-      const isSameItem =
-        miniCartItems.length &&
-        miniCartItems.some(item =>
-          /* 만약 quantity까지 체크하면 같은 상품이 들어갈 수 있음 */
-          isEqual({ ...item, quantity: 0 }, { ...optionFields, quantity: 0 }),
+      const variantId = findVariantId(optionFields, product)
+      const hasSameItem = miniCartItems.some(item => {
+        console.log(
+          { ...item, quantity: 0 },
+          { ...optionFields, variantId, quantity: 0 },
         )
-
-      if (!isSameItem) {
-        const variantId = findVariantId(optionFields, product)
+        /* 만약 quantity까지 체크하면 같은 상품이 들어갈 수 있음 */
+        return isEqual(
+          { ...item, quantity: 0 },
+          { ...optionFields, variantId, quantity: 0 },
+        )
+      })
+      if (!hasSameItem) {
         const newItems = [...miniCartItems, { ...optionFields, variantId }]
         setMiniCartItems(newItems)
         const totalQuantity = newItems.reduce<number>(
@@ -64,13 +72,13 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
       resetOptionFields()
     }
   }, [
+    shouldAddItem,
     miniCartItems,
     optionFields,
     price,
     product,
     resetOptionFields,
     setTotal,
-    shouldAddItem,
   ])
 
   const handleOrderButtonClick = async () => {
@@ -110,7 +118,7 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
         />
       ))}
       <div>
-        {!!miniCartItems.length && (
+        {miniCartItems.length && (
           <MiniCart items={miniCartItems} setItems={setMiniCartItems} />
         )}
       </div>

@@ -34,7 +34,7 @@ interface SelectFormFieldProps {
 
 const SelectFormField = ({
   option,
-  onChange,
+  onChange: createChangeHandle,
   defaultValue,
   shouldAddItem,
 }: SelectFormFieldProps) => {
@@ -49,7 +49,11 @@ const SelectFormField = ({
   return (
     <div css={rootStyle}>
       <label css={labelStyle}>{option.name}</label>
-      <select css={selectBoxStyle} onChange={onChange(option._id)} ref={ref}>
+      <select
+        css={selectBoxStyle}
+        onChange={createChangeHandle(option._id)}
+        ref={ref}
+      >
         <option>{defaultValue}</option>
         {option.variations.map(opt => (
           <option key={opt._id}>{opt.value}</option>

@@ -18,21 +18,10 @@ const MiniCartItem = ({ options, items, setItems }: MiniCartItemProps) => {
   const textContent = Object.values(options).reduce((prev, curr, idx) => {
     return idx ? `${prev} ${curr}` : ''
   }, '')
-  const [count, setCount] = useState(1)
-  useEffect(() => {
-    options.quantity = count
-    const newItems = items.map(item =>
-      isEqual({ ...item, quantity: 0 }, { ...options, quantity: 0 })
-        ? options
-        : item,
-    )
-    setItems(newItems)
-  }, [count, items, options, setItems])
-
   return (
     <div css={rootStyle}>
       {textContent}
-      <QuantityBox value={count} setCount={setCount} />
+      <QuantityBox options={options} setItems={setItems} />
     </div>
   )
 }

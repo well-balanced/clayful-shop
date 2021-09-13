@@ -31,29 +31,43 @@ const inputStyle = css`
 `
 
 interface QuantityBoxProps {
-  value: number
-  setCount: Dispatch<SetStateAction<number>>
+  options: any
+  setItems: (arg: any) => void
 }
 
-const QuantityBox = ({ value, setCount }: QuantityBoxProps) => {
+const QuantityBox = ({ options, setItems }: QuantityBoxProps) => {
   const { price, total, setTotal } = usePriceState()
+
   const handleIncrease = () => {
-    setCount(value + 1)
+    setItems(prev => {
+      return prev.map(item => {
+        if (item.variantId === options.variantId) {
+          return { ...item, quantity: item.quantity + 1 }
+        }
+        return item
+      })
+    })
     setTotal(total + price)
   }
   const handleDecrease = () => {
-    if (value > 1) {
-      setCount(value - 1)
+    if (options.quantity > 1) {
+      setItems(prev => {
+        return prev.map(item => {
+          if (item.variantId === options.variantId) {
+            return { ...item, quantity: item.quantity - 1 }
+          }
+          return item
+        })
+      })
       setTotal(total - price)
     }
   }
-
   return (
     <div css={rootStyle}>
       <button css={buttonStyle} onClick={handleIncrease}>
         +
       </button>
-      <input css={inputStyle} value={value} disabled />
+      <input css={inputStyle} value={options.quantity} disabled />
       <button css={buttonStyle} onClick={handleDecrease}>
         -
       </button>
