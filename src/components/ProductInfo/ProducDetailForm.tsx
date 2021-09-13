@@ -50,16 +50,13 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
     if (shouldAddItem) {
       const variantId = findVariantId(optionFields, product)
       const hasSameItem = miniCartItems.some(item => {
-        console.log(
-          { ...item, quantity: 0 },
-          { ...optionFields, variantId, quantity: 0 },
-        )
         /* 만약 quantity까지 체크하면 같은 상품이 들어갈 수 있음 */
         return isEqual(
           { ...item, quantity: 0 },
           { ...optionFields, variantId, quantity: 0 },
         )
       })
+
       if (!hasSameItem) {
         const newItems = [...miniCartItems, { ...optionFields, variantId }]
         setMiniCartItems(newItems)

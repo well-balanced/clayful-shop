@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import clayfulPost from 'utils/clayfulPost'
+import { clayfulDelete, clayfulPost } from 'utils/clayful'
 import { extractToken } from 'auth'
 
 interface ClayfulPayload {
@@ -16,6 +16,15 @@ interface Payload {
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
   const token = extractToken(req)
+  if (req.method === 'DELETE') {
+    const payload = await clayfulDelete('/me/cart/items', {
+      headers: { 'Authorization-Customer': token },
+      method: 'DELETE',
+    })
+    res.status(payload.statusCode)
+    return
+  }
+
   const payload = await clayfulPost<ClayfulPayload>(
     '/me/cart/items',
     req.body,

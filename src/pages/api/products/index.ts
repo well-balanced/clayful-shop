@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import clayfulGet from 'utils/clayfulGet'
+import { clayfulGet } from 'utils/clayful'
 
 export interface Product {
   _id: string

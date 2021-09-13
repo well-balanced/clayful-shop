@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import clayfulPost from 'utils/clayfulPost'
+import { clayfulPost } from 'utils/clayful'
 import { extractToken } from 'auth'
 import { CartItem, CartTotalPrice } from 'types'
 
@@ -10,7 +10,7 @@ interface ClayfulPayload {
   }
 }
 
-interface Payload {
+export interface Payload {
   data?: ClayfulPayload
   errorCode?: any
   statusCode?: any

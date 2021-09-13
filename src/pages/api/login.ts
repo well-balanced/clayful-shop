@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import clayfulPost from 'utils/clayfulPost'
+import { clayfulPost } from 'utils/clayful'
 import { setCookie } from 'utils/cookies'
 
 interface ClayfulPayload {
