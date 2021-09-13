@@ -25,8 +25,8 @@ export interface ProductDetail {
   available: boolean
   brand: GeneralInfo | null
   thumbnail: {
-    _id: string
-    url: string
+    _id: string | null
+    url: string | string
   }
   taxCategories: any[]
   totalReview: RatingDetail
@@ -97,4 +97,72 @@ interface VariantDetail {
 interface VariantTypeDetail {
   option: { name: string; prooirity: number; _id: string }
   variation: { value: string; priority: number; _id: string }
+}
+
+export interface CartItem {
+  shippingMethod: GeneralInfo
+  product: {
+    _id: string
+    slug: string
+    name: string
+    thumbnail: { _id: string | null; url: string | null }
+  }
+  variant: VariantDetail
+  price: {
+    original: PriceDetail
+    sale: PriceDetail
+  }
+  discount: {
+    type: string | null
+    value: string | null
+    discounted: PriceDetail
+  }
+  quantity: {
+    raw: number
+    formatted: string
+    converted: string
+  }
+  _id: string
+  addedAt: DateDetail
+  status: string
+  brand: GeneralInfo
+  collections: Collection[]
+  total: {
+    price: {
+      original: PriceDetail
+      sale: PriceDetail
+      withTax: PriceDetail
+      withoutTax: PriceDetail
+    }
+    discounted: PriceDetail
+    taxed: PriceDetail
+  }
+}
+
+interface Collection {
+  path: GeneralInfo[]
+}
+
+export interface CartTotalPrice {
+  price: {
+    original: PriceDetail
+    sale: PriceDetail
+  }
+  discounted: PriceDetail
+  amount: PriceDetail
+  items: {
+    price: {
+      original: PriceDetail
+      sale: PriceDetail
+    }
+    discounted: PriceDetail
+  }
+  shipping: {
+    fee: {
+      original: PriceDetail
+      sale: PriceDetail
+    }
+    discounted: PriceDetail
+  }
+  taxes: { key: string; taxed: PriceDetail }[]
 }
