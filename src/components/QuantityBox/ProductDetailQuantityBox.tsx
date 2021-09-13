@@ -64,12 +64,12 @@ const ProductDetailQuantityBox = ({ options, setItems }: QuantityBoxProps) => {
   }
   return (
     <div css={rootStyle}>
-      <button css={buttonStyle} onClick={handleIncrease}>
-        +
-      </button>
-      <input css={inputStyle} value={options.quantity} disabled />
       <button css={buttonStyle} onClick={handleDecrease}>
         -
+      </button>
+      <input css={inputStyle} value={options.quantity} disabled />
+      <button css={buttonStyle} onClick={handleIncrease}>
+        +
       </button>
     </div>
   )
