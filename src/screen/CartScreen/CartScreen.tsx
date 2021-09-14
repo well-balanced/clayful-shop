@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import CartItem from 'components/CartItem'
-import { PricingProvider, Pricing } from 'components/CartItem/PricingContext'
+import { usePricingState } from 'components/CartItem/PricingContext'
 import { useEffect, useState } from 'react'
 import { NEXT_PUBLIC_API_URL } from 'utils/config'
 import { Payload as CartPayload } from 'pages/api/cart'
@@ -52,34 +52,7 @@ const totalPriceStyle = css`
 const CartScreen = () => {
   const [data, setData] = useState(null)
   const [errorCode, setErrorCode] = useState(null)
-  // @ts-ignore
-  const [pricings, setPricings] = useState<Pricing[]>([])
-  const [total, setTotal] = useState(0)
-
-  const calculatePricings = (pricing: Pricing) => {
-    const newPricings = pricings.map(item =>
-      item.variantId === pricing.variantId ? pricing : item,
-    )
-    const accumulated = newPricings.reduce(
-      (prev, curr) => prev + curr.price * curr.quantity,
-      0,
-    )
-    setPricings(newPricings)
-    setTotal(accumulated)
-  }
-
-  const deletePricing = (variantId: string) => {
-    const newPricings = pricings.filter(
-      pricing => pricing.variantId !== variantId,
-    )
-    setPricings(newPricings)
-  }
-
-  const findPricingByVariantId = (variantId: string, pricings: Pricing[]) => {
-    const pricing = pricings.find(pricing => pricing.variantId === variantId)
-    return pricing
-  }
-
+  const { pricings, total, setTotal, setPricings } = usePricingState()
   const fetchCartItmes = async () => {
     if (data || errorCode) return
     const { data: fetched, errorCode: err }: CartPayload = await fetch(
@@ -117,8 +90,6 @@ const CartScreen = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, errorCode])
 
-  useEffect(() => {}, [pricings])
-
   const onDeleteAllClick = async () => {
     await fetch(`${NEXT_PUBLIC_API_URL}/api/cart/items`, {
       method: 'DELETE',
@@ -127,33 +98,26 @@ const CartScreen = () => {
   }
 
   const onOrderButtonClick = () => {
-    console.log(1)
+    console.log(pricings)
   }
 
   return (
-    <PricingProvider
-      pricings={pricings}
-      calculatePricings={calculatePricings}
-      deletePricing={deletePricing}
-      findPricingByVariantId={findPricingByVariantId}
-    >
-      <div css={rootStyle}>
-        <div css={titleStyle}>장바구니</div>
-        <div css={deleteAllWrapperStyle} onClick={onDeleteAllClick}>
-          장바구니 비우기
-        </div>
-        <div css={cartListStyle}>
-          {data?.cart?.items.map(item => (
-            <CartItem item={item} key={item._id} />
-          ))}
-        </div>
-        <div css={totalPriceWrapperStyle}>
-          <div css={totalPriceStyle}>합계</div>
-          <div>{total > 0 && total.toLocaleString('ko-KR') + '원'}</div>
-        </div>
-        <BaseButton onClick={onOrderButtonClick}>주문하기</BaseButton>
+    <div css={rootStyle}>
+      <div css={titleStyle}>장바구니</div>
+      <div css={deleteAllWrapperStyle} onClick={onDeleteAllClick}>
+        장바구니 비우기
       </div>
-    </PricingProvider>
+      <div css={cartListStyle}>
+        {data?.cart?.items.map(item => (
+          <CartItem item={item} key={item._id} />
+        ))}
+      </div>
+      <div css={totalPriceWrapperStyle}>
+        <div css={totalPriceStyle}>합계</div>
+        <div>{total > 0 && total.toLocaleString('ko-KR') + '원'}</div>
+      </div>
+      <BaseButton onClick={onOrderButtonClick}>주문하기</BaseButton>
+    </div>
   )
 }
 

@@ -3,6 +3,7 @@ import Layout from 'components/Layout'
 import { css, Global } from '@emotion/react'
 import { UserInfoProvider } from 'context/UserInfoContext'
 import { CookiesProvider } from 'react-cookie'
+import { PricingProvider } from 'components/CartItem/PricingContext'
 
 const globalStyle = css`
   html,
@@ -30,7 +31,9 @@ function MyApp(props: AppProps) {
       <Layout>
         <CookiesProvider>
           <UserInfoProvider>
-            <Component {...pageProps} />
+            <PricingProvider>
+              <Component {...pageProps} />
+            </PricingProvider>
           </UserInfoProvider>
         </CookiesProvider>
       </Layout>

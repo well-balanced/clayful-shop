@@ -1,4 +1,4 @@
-import { createContext, FC, useContext, Dispatch, SetStateAction } from 'react'
+import { createContext, FC, useContext, useState } from 'react'
 
 export interface Pricing {
   variantId: string
@@ -9,37 +9,57 @@ export interface Pricing {
 
 const PricingContext = createContext({
   pricings: [],
-  calculatePricings: (pricing: Pricing) => {},
+  setPricings: pricing => {},
+  calculatePricings: pricing => {},
   deletePricing: (variantId: string) => {},
   findPricingByVariantId: (
     variantId: string,
     pricings: Pricing[],
   ): Pricing => ({ variantId: '', price: 0, quantity: 0, totalPrice: 0 }),
+  total: 0,
+  setTotal: total => {},
 })
 
 export const usePricingState = () => useContext(PricingContext)
 
-interface PriceProviderProps {
-  pricings: Pricing[]
-  calculatePricings: (pricing: Pricing) => void
-  deletePricing: (variantId: string) => void
-  findPricingByVariantId: (variantId: string, pricings: Pricing[]) => Pricing
-}
+export const PricingProvider: FC = ({ children }) => {
+  const [pricings, setPricings] = useState<Pricing[]>([])
+  const [total, setTotal] = useState(0)
 
-export const PricingProvider: FC<PriceProviderProps> = ({
-  children,
-  pricings,
-  calculatePricings,
-  deletePricing,
-  findPricingByVariantId,
-}) => {
+  const calculatePricings = (pricing: Pricing) => {
+    const newPricings = pricings.map(item =>
+      item.variantId === pricing.variantId ? pricing : item,
+    )
+    const accumulated = newPricings.reduce(
+      (prev, curr) => prev + curr.price * curr.quantity,
+      0,
+    )
+    setPricings(newPricings)
+    setTotal(accumulated)
+  }
+
+  const deletePricing = (variantId: string) => {
+    const newPricings = pricings.filter(
+      pricing => pricing.variantId !== variantId,
+    )
+    setPricings(newPricings)
+  }
+
+  const findPricingByVariantId = (variantId: string, pricings: Pricing[]) => {
+    const pricing = pricings.find(pricing => pricing.variantId === variantId)
+    return pricing
+  }
+
   return (
     <PricingContext.Provider
       value={{
         pricings,
+        setPricings,
         calculatePricings,
         findPricingByVariantId,
         deletePricing,
+        total,
+        setTotal,
       }}
     >
       {children}
