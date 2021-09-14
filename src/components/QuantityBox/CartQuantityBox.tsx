@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import { usePricingState } from 'components/CartItem/PricingContext'
 
 const rootStyle = css`
-  margin-top: 10px;
+  margin: 0 50px 0 50px;
 `
 
 const buttonStyle = css`

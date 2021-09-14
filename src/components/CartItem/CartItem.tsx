@@ -4,12 +4,12 @@ import { css } from '@emotion/react'
 import Router from 'next/router'
 import { usePricingState } from './PricingContext'
 import CartQuantityBox from 'components/QuantityBox/CartQuantityBox'
-import { useState } from 'react'
 
 const rootStyle = css`
   padding: 20px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #dddddd;
 `
 
 const thumbnailStyle = (url: string) => css`
@@ -19,7 +19,6 @@ const thumbnailStyle = (url: string) => css`
   background-image: url(${url}?width=240&height=240);
   background-repeat: no-repeat;
   background-size: 75px 75px;
-  margin-right: 20px;
   &:hover {
     cursor: pointer;
     #content-wrapper {
@@ -29,16 +28,22 @@ const thumbnailStyle = (url: string) => css`
 `
 
 const productInfoStyle = css`
-  width: 400px;
+  width: 300px;
+  margin: 0 15px 0 15px;
 `
 
 const buttonWrapperStyle = css`
-  margin-top: 10px;
+  margin-top: 5px;
   cursor: pointer;
+  color: #888888;
 `
 const nameWrapperStyle = css``
 
 const optionTextWrapperStyle = css``
+
+const partialPriceWrapperStyle = css`
+  margin: 0 100px; 0 100px;
+`
 
 interface CartItemProps {
   item: ICartItem
@@ -69,7 +74,9 @@ export default function CartItem({ item }: CartItemProps) {
         </div>
       </div>
       <CartQuantityBox variantId={pricing?.variantId} />
-      <div>{pricing?.totalPrice.toLocaleString('ko-KR') + '원'}</div>
+      <div css={partialPriceWrapperStyle}>
+        {pricing?.totalPrice.toLocaleString('ko-KR') + '원'}
+      </div>
     </div>
   )
 }

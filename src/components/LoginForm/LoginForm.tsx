@@ -2,11 +2,12 @@ import useFormFields from 'hooks/useFormFields'
 import React from 'react'
 import LoginFormField from './LoginFormField'
 import { useState } from 'react'
-import Router from 'next/router'
-import { useUserInfo } from 'context/UserInfoContext'
+import { useRouter } from 'next/router'
+import { useCookies } from 'react-cookie'
 
 const LoginForm = () => {
-  const { userInfo, setUserInfo } = useUserInfo()
+  const router = useRouter()
+  const [, setCookie] = useCookies(['isAuth'])
   const [error, setError] = useState(null)
   const [formFields, createChangeHanlder] = useFormFields({
     userId: '',
@@ -24,9 +25,8 @@ const LoginForm = () => {
       },
       body: JSON.stringify(formFields),
     }).then(res => res.json())
-    setUserInfo({ ...userInfo, customer: data?.customer })
-
-    errorCode ? setError(errorCode) : Router.push('/')
+    errorCode ? setError(errorCode) : router.push('/')
+    setCookie('isAuth', data.token, { maxAge: 60 * 60 * 24 })
   }
 
   return (

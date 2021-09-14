@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app'
 import Layout from 'components/Layout'
 import { css, Global } from '@emotion/react'
 import { UserInfoProvider } from 'context/UserInfoContext'
+import { CookiesProvider } from 'react-cookie'
 
 const globalStyle = css`
   html,
@@ -27,9 +28,11 @@ function MyApp(props: AppProps) {
     <>
       <Global styles={globalStyle} />
       <Layout>
-        <UserInfoProvider>
-          <Component {...pageProps} />
-        </UserInfoProvider>
+        <CookiesProvider>
+          <UserInfoProvider>
+            <Component {...pageProps} />
+          </UserInfoProvider>
+        </CookiesProvider>
       </Layout>
     </>
   )
