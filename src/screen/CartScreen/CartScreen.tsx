@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import CartItem from 'components/CartItem'
+import { CartItem } from 'components/CartItem'
 import { usePricingState } from 'components/CartItem/PricingContext'
 import { useEffect, useState } from 'react'
 import { NEXT_PUBLIC_API_URL } from 'utils/config'
@@ -68,10 +68,12 @@ const CartScreen = () => {
     if (fetched) {
       setData(fetched)
       const newPricings = fetched.cart.items.map(item => ({
+        productId: item.product._id,
         variantId: item.variant._id,
         quantity: item.quantity.raw,
-        price: item.price.original.raw,
-        totalPrice: item.price.original.raw * item.quantity.raw,
+        price: item.price.original.raw / item.quantity.raw,
+        totalPrice: item.price.original.raw,
+        shippingMethodId: item.shippingMethod._id,
       }))
       setPricings(newPricings)
       setTotal(
@@ -94,11 +96,29 @@ const CartScreen = () => {
     await fetch(`${NEXT_PUBLIC_API_URL}/api/cart/items`, {
       method: 'DELETE',
     }).then(r => r.json())
+    setPricings([])
     Router.push('/cart')
   }
 
-  const onOrderButtonClick = () => {
-    console.log(pricings)
+  const onOrderButtonClick = async () => {
+    await fetch(`/api/cart/items`, {
+      method: 'DELETE',
+    })
+
+    const promises = pricings.map(async item =>
+      fetch('/api/cart/items', {
+        method: 'POST',
+        body: JSON.stringify({
+          product: item.productId,
+          variant: item.variantId,
+          quantity: item.quantity,
+          shippingMethod: item.shippingMethodId,
+        }),
+      }),
+    )
+
+    await Promise.all(promises)
+    Router.push('/order')
   }
 
   return (
@@ -108,15 +128,23 @@ const CartScreen = () => {
         장바구니 비우기
       </div>
       <div css={cartListStyle}>
-        {data?.cart?.items.map(item => (
-          <CartItem item={item} key={item._id} />
-        ))}
+        {data?.cart?.items
+          .filter(item =>
+            pricings.some(pricing => item.variant._id === pricing.variantId),
+          )
+          .map(item => {
+            return <CartItem item={item} key={item._id} />
+          })}
       </div>
-      <div css={totalPriceWrapperStyle}>
-        <div css={totalPriceStyle}>합계</div>
-        <div>{total > 0 && total.toLocaleString('ko-KR') + '원'}</div>
-      </div>
-      <BaseButton onClick={onOrderButtonClick}>주문하기</BaseButton>
+      {total > 0 && (
+        <div>
+          <div css={totalPriceWrapperStyle}>
+            <div css={totalPriceStyle}>합계</div>
+            <div>{total.toLocaleString('ko-KR') + '원'}</div>
+          </div>
+          <BaseButton onClick={onOrderButtonClick}>주문하기</BaseButton>
+        </div>
+      )}
     </div>
   )
 }

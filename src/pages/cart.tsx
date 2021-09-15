@@ -1,8 +1,13 @@
 import type { NextPage } from 'next'
 import CartScreen from 'screen/CartScreen'
+import { PricingProvider } from 'components/CartItem/PricingContext'
 
-const ProductDetailPage: NextPage = () => {
-  return <CartScreen />
+const CartPage: NextPage = () => {
+  return (
+    <PricingProvider>
+      <CartScreen />
+    </PricingProvider>
+  )
 }
 
-export default ProductDetailPage
+export default CartPage

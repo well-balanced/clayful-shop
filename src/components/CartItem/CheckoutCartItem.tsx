@@ -2,8 +2,6 @@ import React from 'react'
 import { CartItem as ICartItem } from 'types'
 import { css } from '@emotion/react'
 import Router from 'next/router'
-import { usePricingState } from './PricingContext'
-import CartQuantityBox from 'components/QuantityBox/CartQuantityBox'
 
 const rootStyle = css`
   padding: 20px;
@@ -32,15 +30,6 @@ const productInfoStyle = css`
   margin: 0 15px 0 15px;
 `
 
-const buttonWrapperStyle = css`
-  margin-top: 5px;
-  cursor: pointer;
-  color: #888888;
-`
-const nameWrapperStyle = css``
-
-const optionTextWrapperStyle = css``
-
 const partialPriceWrapperStyle = css`
   margin: 0 100px; 0 100px;
 `
@@ -50,12 +39,6 @@ interface CartItemProps {
 }
 
 export default function CartItem({ item }: CartItemProps) {
-  const { pricings, findPricingByVariantId, deletePricing } = usePricingState()
-  const pricing = findPricingByVariantId(item.variant._id, pricings)
-
-  const onRemoveClick = () => {
-    deletePricing(pricing.variantId)
-  }
   const optionText =
     item.variant?.types?.map(type => type.variation.value).join(' ') || ''
   return (
@@ -65,17 +48,12 @@ export default function CartItem({ item }: CartItemProps) {
         onClick={() => Router.push(`/products/${item.product._id}`)}
       />
       <div css={productInfoStyle}>
-        <div css={nameWrapperStyle}> {item.product.name}</div>
-        <div css={optionTextWrapperStyle}>
-          {optionText && `(${optionText})`}
-        </div>
-        <div css={buttonWrapperStyle} onClick={onRemoveClick}>
-          삭제하기
-        </div>
+        <div> {item.product.name}</div>
+        <div>{optionText && `(${optionText})`}</div>
       </div>
-      <CartQuantityBox variantId={pricing?.variantId} />
+      <div css={partialPriceWrapperStyle}>{item.quantity.raw} 개</div>
       <div css={partialPriceWrapperStyle}>
-        {pricing?.totalPrice.toLocaleString('ko-KR') + '원'}
+        {item.price.original.raw.toLocaleString('ko-KR') + '원'}
       </div>
     </div>
   )

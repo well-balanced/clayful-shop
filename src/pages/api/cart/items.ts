@@ -21,8 +21,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
       headers: { 'Authorization-Customer': token },
       method: 'DELETE',
     })
-    res.status(payload.statusCode)
-    return
+    return res.status(payload.statusCode).json({})
   }
 
   const payload = await clayfulPost<ClayfulPayload>(
@@ -30,7 +29,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
     req.body,
     { headers: { 'Authorization-Customer': token } },
   )
-  res.status(payload.statusCode).json(payload)
+  return res.status(payload.statusCode).json(payload)
 }
 
 export default handler
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+}

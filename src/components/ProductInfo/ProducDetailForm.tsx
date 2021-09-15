@@ -1,5 +1,5 @@
 import useFormFields from 'hooks/useFormFields'
-import SelectFormField from 'components/SelectFormField'
+import ProductDetailSelect from 'components/ProductDetailSelect'
 import { useEffect, useState } from 'react'
 import { MiniCart } from 'components/MiniCart'
 import isEqual from 'lodash/isEqual'
@@ -106,7 +106,7 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
   return (
     <div>
       {product?.options.map(option => (
-        <SelectFormField
+        <ProductDetailSelect
           shouldAddItem={shouldAddItem}
           option={option}
           onChange={createOptionHanlder}

@@ -1,10 +1,12 @@
 import { createContext, FC, useContext, useState } from 'react'
 
 export interface Pricing {
+  productId: string
   variantId: string
   price: number
   quantity: number
   totalPrice: number
+  shippingMethodId: string
 }
 
 const PricingContext = createContext({
@@ -15,7 +17,14 @@ const PricingContext = createContext({
   findPricingByVariantId: (
     variantId: string,
     pricings: Pricing[],
-  ): Pricing => ({ variantId: '', price: 0, quantity: 0, totalPrice: 0 }),
+  ): Pricing => ({
+    shippingMethodId: '',
+    productId: '',
+    variantId: '',
+    price: 0,
+    quantity: 0,
+    totalPrice: 0,
+  }),
   total: 0,
   setTotal: total => {},
 })
@@ -42,7 +51,12 @@ export const PricingProvider: FC = ({ children }) => {
     const newPricings = pricings.filter(
       pricing => pricing.variantId !== variantId,
     )
+    const accumulated = newPricings.reduce(
+      (prev, curr) => prev + curr.price * curr.quantity,
+      0,
+    )
     setPricings(newPricings)
+    setTotal(accumulated)
   }
 
   const findPricingByVariantId = (variantId: string, pricings: Pricing[]) => {

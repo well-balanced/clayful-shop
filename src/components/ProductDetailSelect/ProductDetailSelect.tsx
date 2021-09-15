@@ -1,5 +1,6 @@
+import { OptionDetail } from 'types'
 import { css } from '@emotion/react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 const rootStyle = css`
   margin: 30px 0px 30px 0px;
@@ -25,27 +26,37 @@ const selectBoxStyle = css`
 `
 
 interface SelectFormFieldProps {
-  label: string
-  options: string[]
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  defaultValue?: string
+  option: OptionDetail
+  onChange: (key: string) => (e: React.ChangeEvent<HTMLSelectElement>) => void
+  defaultValue: string
+  shouldAddItem: boolean
 }
 
 const SelectFormField = ({
-  label,
-  options,
-  onChange,
-  defaultValue = '선택해주세요.',
+  option,
+  onChange: createChangeHandle,
+  defaultValue,
+  shouldAddItem,
 }: SelectFormFieldProps) => {
   const ref = useRef(null)
 
+  useEffect(() => {
+    if (shouldAddItem) {
+      ref.current.value = defaultValue
+    }
+  }, [defaultValue, shouldAddItem])
+
   return (
     <div css={rootStyle}>
-      <label css={labelStyle}>{label}</label>
-      <select css={selectBoxStyle} onChange={onChange} ref={ref}>
+      <label css={labelStyle}>{option.name}</label>
+      <select
+        css={selectBoxStyle}
+        onChange={createChangeHandle(option._id)}
+        ref={ref}
+      >
         <option>{defaultValue}</option>
-        {options.map((value, idx) => (
-          <option key={idx}>{value}</option>
+        {option.variations.map(opt => (
+          <option key={opt._id}>{opt.value}</option>
         ))}
       </select>
     </div>
