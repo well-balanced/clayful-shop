@@ -1,4 +1,4 @@
-import { Product } from 'pages/api/products'
+import { ProductDetail } from 'types/product'
 import { css } from '@emotion/react'
 import Router from 'next/router'
 
@@ -34,7 +34,7 @@ const rootStyle = (thumbnail: any) => css`
 `
 
 interface ProductCardProps {
-  product: Product
+  product: ProductDetail
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {

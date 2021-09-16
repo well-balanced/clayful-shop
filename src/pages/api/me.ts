@@ -1,27 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { clayfulGet } from 'utils/clayful'
 import { extractToken } from 'auth'
-
-export interface Customer {
-  _id: string
-  name: {
-    full: string
-  }
-  address: {
-    primary: any
-    secondaries: any[]
-  }
-  connect: boolean
-  verified: boolean
-  userId: string
-  alias: string
-  email: string
-  avatar: {
-    _id: string
-    url: string
-  }
-  phone: string
-}
+import { Customer } from 'types/user'
 
 export interface Payload {
   data?: Customer

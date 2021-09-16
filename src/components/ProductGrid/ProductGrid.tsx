@@ -1,4 +1,4 @@
-import { Product } from 'pages/api/products'
+import { ProductList } from 'types/product'
 import ProductCard from 'components/ProductCard'
 import { css } from '@emotion/react'
 import InfiniteScroll from 'components/InfiniteScroll'
@@ -11,7 +11,7 @@ const gridContainerStyle = css`
 `
 
 interface ProductGridProps {
-  products: Product[]
+  products: ProductList
   pageSize?: number
   onLoadMore: (e: any) => void
 }

@@ -1,4 +1,4 @@
-import { OptionDetail } from 'types'
+import { Option } from 'types/product'
 import { css } from '@emotion/react'
 import { useEffect, useRef } from 'react'
 
@@ -26,7 +26,7 @@ const selectBoxStyle = css`
 `
 
 interface SelectFormFieldProps {
-  option: OptionDetail
+  option: Option
   onChange: (key: string) => (e: React.ChangeEvent<HTMLSelectElement>) => void
   defaultValue: string
   shouldAddItem: boolean

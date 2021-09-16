@@ -1,22 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { clayfulPost } from 'utils/clayful'
 import { setCookie } from 'utils/cookies'
-
-interface ClayfulPayload {
-  customer: string
-  token: string
-  expiresIn: number
-}
+import { LoginPayload } from 'types/user'
 
 interface Payload {
-  data?: ClayfulPayload
+  data?: LoginPayload
   errorCode?: any
   statusCode?: any
 }
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
   const { userId, password } = req.body
-  const payload = await clayfulPost<ClayfulPayload>('/customers/auth', {
+  const payload = await clayfulPost<LoginPayload>('/customers/auth', {
     ...(userId.includes('@') ? { email: userId } : { userId }),
     password,
   })

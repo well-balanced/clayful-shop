@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { css } from '@emotion/react'
-import { Customer } from 'pages/api/me'
+import { Customer } from 'types/user'
 import useFormFields from 'hooks/useFormFields'
 import ProfileForm from './ProfileForm'
 import BaseButton from 'components/BaseButton'

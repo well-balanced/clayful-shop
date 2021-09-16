@@ -2,7 +2,8 @@ import { css } from '@emotion/react'
 import { useState, useEffect } from 'react'
 import { Payload as CartPayload } from 'pages/api/cart'
 import { NEXT_PUBLIC_API_URL } from 'utils/config'
-import { CartItem, CartTotalPrice } from 'types'
+import { CartItem } from 'types/cart'
+import { ClayfulTotalPrice } from 'types/common'
 import { CheckoutCartItem } from 'components/CartItem'
 import { useOrderFormState } from './OrderFormContext'
 import OrderForm from 'components/OrderForm/OrderForm'
@@ -37,7 +38,7 @@ const totalPriceStyle = css`
 
 const OrderScreen = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>(null)
-  const [total, setTotal] = useState<CartTotalPrice>(null)
+  const [total, setTotal] = useState<ClayfulTotalPrice>(null)
   const [errorCode, setErrorCode] = useState(null)
   const { formFields } = useOrderFormState()
 

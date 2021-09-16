@@ -5,7 +5,7 @@ import { MiniCart } from 'components/MiniCart'
 import isEqual from 'lodash/isEqual'
 import { usePriceState } from './PriceContext'
 import { css } from '@emotion/react'
-import { ProductDetail } from 'types'
+import { ProductDetail } from 'types/product'
 import { BaseErrorBox } from 'components/ErrorBox'
 import { omit } from 'utils'
 

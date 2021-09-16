@@ -1,19 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { clayfulPost } from 'utils/clayful'
+import { clayfulGet } from 'utils/clayful'
 import { extractToken } from 'auth'
+import { Orders } from 'types/order'
 
-interface Payload {
-  data?: {}
+export interface Payload {
+  data?: Orders
   errorCode?: any
   statusCode?: any
 }
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
   const token = extractToken(req)
-  const payload = await clayfulPost('/me/cart/checkout/order', req.body, {
+  const payload = await clayfulGet<Orders>('/orders', {
     headers: { 'Authorization-Customer': token },
   })
-  return res.status(payload.statusCode).json(payload)
+  res.status(payload.statusCode).json(payload)
 }
 
 export default handler

@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { clayfulGet } from 'utils/clayful'
-import { ProductDetail } from 'types'
+import { ProductDetail } from 'types/product'
 import ProductDetailScreen from 'screen/ProductDetailScreen'
 import type { NextPage } from 'next'
 

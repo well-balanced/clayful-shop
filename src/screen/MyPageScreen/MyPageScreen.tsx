@@ -14,6 +14,11 @@ const MyPageScreen = () => {
     fetch(url).then(r => r.json()),
   )
 
+  const { data: orderData } = useSWR<UserPayload>('/api/orders', url =>
+    fetch(url).then(r => r.json()),
+  )
+  console.log({ orderData })
+
   return (
     <div css={rootStyle}>
       {userData && <Profile customer={userData.data} />}
