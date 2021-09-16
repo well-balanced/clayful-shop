@@ -58,7 +58,6 @@ const OrderScreen = () => {
     }
 
     if (!cartItems || shouldAttachBody) {
-      console.log(1)
       const { data, errorCode: err }: CartPayload = await fetch(
         `${NEXT_PUBLIC_API_URL}/api/cart`,
         {

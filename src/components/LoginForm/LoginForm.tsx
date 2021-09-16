@@ -26,7 +26,7 @@ const LoginForm = () => {
       body: JSON.stringify(formFields),
     }).then(res => res.json())
     errorCode ? setError(errorCode) : router.push('/')
-    setCookie('isAuth', data.token, { maxAge: 60 * 60 * 24 })
+    setCookie('isAuth', true, { maxAge: Number.MAX_SAFE_INTEGER })
   }
 
   return (

@@ -2,6 +2,7 @@ import useFormFields from 'hooks/useFormFields'
 import React from 'react'
 import SignupFormField from './SignupFormField'
 import { useState } from 'react'
+import Router from 'next/router'
 
 const SignupForm = () => {
   const [error, setError] = useState(null)
@@ -25,6 +26,7 @@ const SignupForm = () => {
       body: JSON.stringify(formFields),
     }).then(res => res.json())
     errorCode ? setError(errorCode) : resetFormFields()
+    Router.push('/login')
   }
 
   return (
