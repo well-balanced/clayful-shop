@@ -14,7 +14,7 @@ const RightButtons = () => {
   return (
     <div css={rootStyle}>
       {cookies?.isAuth ? (
-        <div>loggedIn</div>
+        <NextCutsomButtonLink href="/me">MY PAGE</NextCutsomButtonLink>
       ) : (
         <div>
           <NextCutsomButtonLink href="/login">LOGIN</NextCutsomButtonLink>
