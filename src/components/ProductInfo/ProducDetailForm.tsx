@@ -8,11 +8,16 @@ import { css } from '@emotion/react'
 import { ProductDetail } from 'types/product'
 import { BaseErrorBox } from 'components/ErrorBox'
 import { omit } from 'utils'
+import BaseButton from 'components/BaseButton'
 
 const totalPriceWrapperStyle = css`
   display: flex;
   justify-content: space-between;
   width: 200px;
+`
+
+const buttonWrapperStyle = css`
+  display: flex;
 `
 
 interface ProductDetailFormProps {
@@ -115,7 +120,7 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
         />
       ))}
       <div>
-        {miniCartItems.length && (
+        {!!miniCartItems.length && (
           <MiniCart items={miniCartItems} setItems={setMiniCartItems} />
         )}
       </div>
@@ -126,8 +131,10 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
           {total.toLocaleString('ko-KR') + '원'}
         </div>
       </div>
-      <button onClick={handleOrderButtonClick}>주문하기</button>
-      <button>장바구니</button>
+      <div css={buttonWrapperStyle}>
+        <BaseButton onClick={handleOrderButtonClick}>주문하기</BaseButton>
+        <BaseButton onClick={handleOrderButtonClick}>장바구니</BaseButton>
+      </div>
       <BaseErrorBox open={errorInfo.open} code={errorInfo.errorCode} />
     </div>
   )

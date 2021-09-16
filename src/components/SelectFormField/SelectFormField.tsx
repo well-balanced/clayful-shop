@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import { useRef } from 'react'
 
 const rootStyle = css`
-  margin: 30px 0px 30px 0px;
+  margin: 20px 0px 20px 0px;
 `
 
 const labelStyle = css`

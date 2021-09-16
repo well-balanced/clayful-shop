@@ -5,6 +5,18 @@ import useFormFields from 'hooks/useFormFields'
 import ProfileForm from './ProfileForm'
 import BaseButton from 'components/BaseButton'
 
+const rootStyle = css`
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 150px;
+`
+
+const titleStyle = css`
+  font-size: 30px;
+  margin: 30px;
+  text-align: center;
+`
+
 interface ProfileProps {
   customer: Customer
 }
@@ -30,9 +42,10 @@ export default function Profile({ customer }: ProfileProps) {
   }
 
   return (
-    <div>
+    <div css={rootStyle}>
+      <div css={titleStyle}>내 프로필</div>
       <BaseButton onClick={onEditButtonClick}>
-        {disabled ? '프로필 수정하기' : '수정완료'}
+        {disabled ? '프로필 수정' : '수정완료'}
       </BaseButton>
       <ProfileForm
         fields={formFields}

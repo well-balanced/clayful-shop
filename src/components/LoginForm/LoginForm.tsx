@@ -1,9 +1,16 @@
 import useFormFields from 'hooks/useFormFields'
 import React from 'react'
-import LoginFormField from './LoginFormField'
+import BaseFormField from 'components/BaseFormField'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
+import BaseButton from 'components/BaseButton'
+import { css } from '@emotion/react'
+
+const rootStyle = css`
+  width: 150px;
+  margin: 0 auto;
+`
 
 const LoginForm = () => {
   const router = useRouter()
@@ -16,9 +23,8 @@ const LoginForm = () => {
 
   if (error) return <div>{error}</div>
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const { data, errorCode } = await fetch('/api/login', {
+  const handleSubmit = async () => {
+    const { errorCode } = await fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,21 +36,20 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <LoginFormField
+    <div css={rootStyle}>
+      <BaseFormField
         label="아이디 혹은 이메일"
-        field="userId"
         value={formFields['userId']}
-        changeHandler={createChangeHandler}
+        onChange={createChangeHandler('userId')}
       />
-      <LoginFormField
+      <BaseFormField
         label="비밀번호"
-        field="password"
         value={formFields['password']}
-        changeHandler={createChangeHandler}
+        onChange={createChangeHandler('password')}
+        type="password"
       />
-      <input type="submit" value="Submit" />
-    </form>
+      <BaseButton onClick={handleSubmit}>로그인</BaseButton>
+    </div>
   )
 }
 

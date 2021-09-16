@@ -1,3 +1,11 @@
+import {
+  ClayfulPrice,
+  ClayfulGeneral,
+  ClayfulFormat,
+  ClayfulThumbnail,
+  ClayfulDate,
+} from './common'
+
 export interface ProductDetail {
   _id: string
   name: string
@@ -57,10 +65,27 @@ interface Validation {
   _id: string
 }
 
-interface Variant {
+export interface Variant {
+  price: {
+    original: ClayfulPrice
+    sale: ClayfulPrice
+  }
+  discount: {
+    type: string | null
+    value: string | null
+    discounted: ClayfulPrice
+  }
+  thumbnail: ClayfulThumbnail
   _id: string
   available: boolean
   types: VariantType[]
+  quantity: ClayfulFormat
+  sku: string
+  types: VariantType[]
+  weight: ClayfulFormat
+  width: ClayfulFormat
+  height: ClayfulFormat
+  depth: ClayfulFormat
 }
 
 interface VariantType {
@@ -86,4 +111,11 @@ export interface ProductDetail {
 interface ShippingDetail {
   methods: ClayfulGeneral[]
   calculation: string
+}
+
+export interface ProductSummary {
+  _id: string
+  slug: string
+  name: string
+  thumbnail: { _id: string | null; url: string | null }
 }

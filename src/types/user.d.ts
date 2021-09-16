@@ -12,10 +12,6 @@ export interface Customer {
   userId: string
   alias: string
   email: string
-  avatar: {
-    _id: string
-    url: string
-  }
   phone: string
 }
 

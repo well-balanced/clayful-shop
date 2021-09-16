@@ -5,6 +5,10 @@ interface BaseButtonProps {
   onClick?: () => void
 }
 
+const rootStyle = css`
+  margin: 1em;
+`
+
 const buttonStyle = css`
   margin-top: 30px;
   margin-left: auto;
@@ -24,7 +28,7 @@ const buttonStyle = css`
 `
 const BaseButton: FC<BaseButtonProps> = ({ children, onClick }) => {
   return (
-    <div>
+    <div css={rootStyle}>
       <button css={buttonStyle} onClick={onClick}>
         {children}
       </button>

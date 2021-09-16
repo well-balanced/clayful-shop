@@ -1,16 +1,11 @@
 export interface ClayfulGeneral {
   _id: string
   name: string
-  slug: string
+  slug?: string
 }
 
 export interface ClayfulTotalPrice {
-  price: {
-    original: ClayfulPrice
-    sale: ClayfulPrice
-    withTax: ClayfulPrice
-    withoutTax: ClayfulPrice
-  }
+  price: ClayfulFormattedPrice
   discounted: ClayfulPrice
   taxed: ClayfulPrice
   amount?: ClayfulPrice
@@ -53,4 +48,37 @@ export interface ClayfulDate {
 export interface ClayfulThumbnail {
   _id: string | null
   url: string
+}
+
+export interface ClayfulAddress {
+  name: { full: string }
+  company: string
+  address1: string
+  address2: string
+  mobile: string
+  phone: string
+  postcode: string
+  country: {
+    code: string
+    name: string
+  }
+  state: string
+  city: string
+}
+
+export interface ClayfulFormattedPrice {
+  original: ClayfulPrice
+  sale: ClayfulPrice
+  withTax: ClayfulPrice
+  withoutTax: ClayfulPrice
+}
+
+export interface ClayfulCoupon {
+  _id: string
+  name: string
+  type: string
+  discount: {
+    type: string
+    value: ClayfulFormat
+  }
 }

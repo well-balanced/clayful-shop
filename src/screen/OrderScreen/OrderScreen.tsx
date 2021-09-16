@@ -36,6 +36,11 @@ const totalPriceStyle = css`
   margin-right: 20px;
 `
 
+const titleStyle = css`
+  font-size: 24px;
+  margin: 20px 0 0 20px;
+`
+
 const OrderScreen = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>(null)
   const [total, setTotal] = useState<ClayfulTotalPrice>(null)
@@ -104,6 +109,7 @@ const OrderScreen = () => {
             : '0원'}
         </div>
       </div>
+      <div css={titleStyle}>주문 정보</div>
       <OrderForm />
     </div>
   )

@@ -1,3 +1,12 @@
+import {
+  ClayfulGeneral,
+  ClayfulTotalPrice,
+  ClayfulPrice,
+  ClayfulFormat,
+  ClayfulDate,
+} from './common'
+import { ProductSummary, Variant } from './product'
+
 export interface CartItemPayload {
   cart: {
     items: CartItem[]
@@ -7,7 +16,7 @@ export interface CartItemPayload {
 
 export interface CartItem {
   shippingMethod: ClayfulGeneral
-  product: Product
+  product: ProductSummary
   variant: Variant
   price: {
     original: ClayfulPrice
@@ -29,11 +38,4 @@ export interface CartItem {
 
 interface Collection {
   path: ClayfulGeneral[]
-}
-
-interface Product {
-  _id: string
-  slug: string
-  name: string
-  thumbnail: { _id: string | null; url: string | null }
 }

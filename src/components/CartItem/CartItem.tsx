@@ -37,9 +37,6 @@ const buttonWrapperStyle = css`
   cursor: pointer;
   color: #888888;
 `
-const nameWrapperStyle = css``
-
-const optionTextWrapperStyle = css``
 
 const partialPriceWrapperStyle = css`
   margin: 0 100px; 0 100px;
@@ -65,10 +62,8 @@ export default function CartItem({ item }: CartItemProps) {
         onClick={() => Router.push(`/products/${item.product._id}`)}
       />
       <div css={productInfoStyle}>
-        <div css={nameWrapperStyle}> {item.product.name}</div>
-        <div css={optionTextWrapperStyle}>
-          {optionText && `(${optionText})`}
-        </div>
+        <div> {item.product.name}</div>
+        <div>{optionText && `(${optionText})`}</div>
         <div css={buttonWrapperStyle} onClick={onRemoveClick}>
           삭제하기
         </div>
