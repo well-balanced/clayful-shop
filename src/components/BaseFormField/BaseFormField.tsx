@@ -1,16 +1,16 @@
-interface OrderFieldProps {
+interface BaseFormFieldProps {
   label: string
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   disabled?: boolean
 }
 
-const OrderFormField = ({
+const BaseFormField = ({
   label,
   value,
   onChange,
   disabled,
-}: OrderFieldProps) => {
+}: BaseFormFieldProps) => {
   return (
     <div>
       <label>{label}</label>
@@ -19,4 +19,4 @@ const OrderFormField = ({
   )
 }
 
-export default OrderFormField
+export default BaseFormField

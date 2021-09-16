@@ -1,5 +1,7 @@
-import { createContext, FC, useContext } from 'react'
+import { createContext, FC, useContext, useEffect } from 'react'
 import useFormFields from 'hooks/useFormFields'
+import useSWR from 'swr'
+import { Payload as UserPayload } from 'pages/api/me'
 
 export interface OrderFormFields {
   senderName: string
@@ -16,13 +18,31 @@ export interface OrderFormFields {
 
 const OrderFormContext = createContext({
   formFields: {},
-  createChangeHanlder: key => e => {},
+  createChangeHandler: key => e => {},
 })
 
 export const useOrderFormState = () => useContext(OrderFormContext)
 
 export const OrderFormProvider: FC = ({ children }) => {
-  const [formFields, createChangeHanlder] = useFormFields<OrderFormFields>({
+  const { data } = useSWR<UserPayload>('/api/me', url =>
+    fetch(url).then(r => r.json()),
+  )
+
+  useEffect(() => {
+    data &&
+      setFormFields(prev => {
+        return {
+          ...prev,
+          senderName: data?.data.name.full,
+          senderEmail: data?.data.email,
+          senderPhone: data?.data.phone,
+        }
+      })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
+
+  const initialValues = {
     senderName: '',
     senderEmail: '',
     senderPhone: '',
@@ -33,13 +53,16 @@ export const OrderFormProvider: FC = ({ children }) => {
     zipCode: '',
     paymentMethod: '',
     requestMessage: '',
-  })
+  }
+
+  const [formFields, createChangeHandler, _, setFormFields] =
+    useFormFields<OrderFormFields>(initialValues)
 
   return (
     <OrderFormContext.Provider
       value={{
         formFields,
-        createChangeHanlder,
+        createChangeHandler,
       }}
     >
       {children}

@@ -9,7 +9,7 @@ const LoginForm = () => {
   const router = useRouter()
   const [, setCookie] = useCookies(['isAuth'])
   const [error, setError] = useState(null)
-  const [formFields, createChangeHanlder] = useFormFields({
+  const [formFields, createChangeHandler] = useFormFields({
     userId: '',
     password: '',
   })
@@ -35,13 +35,13 @@ const LoginForm = () => {
         label="아이디 혹은 이메일"
         field="userId"
         value={formFields['userId']}
-        changeHandler={createChangeHanlder}
+        changeHandler={createChangeHandler}
       />
       <LoginFormField
         label="비밀번호"
         field="password"
         value={formFields['password']}
-        changeHandler={createChangeHanlder}
+        changeHandler={createChangeHandler}
       />
       <input type="submit" value="Submit" />
     </form>

@@ -1,26 +1,26 @@
 import React from 'react'
 import { useOrderFormState } from 'screen/OrderScreen/OrderFormContext'
-import OrderFormField from './OrderField'
+import BaseFormField from 'components/BaseFormField'
 
 export default function SenderFields() {
-  const { formFields, createChangeHanlder } = useOrderFormState()
+  const { formFields, createChangeHandler } = useOrderFormState()
   return (
     <div>
       <div>주문자 정보</div>
-      <OrderFormField
+      <BaseFormField
         label={'주문자명'}
-        value={formFields['sendName']}
-        onChange={createChangeHanlder('senderName')}
+        value={formFields['senderName']}
+        onChange={createChangeHandler('senderName')}
       />
-      <OrderFormField
+      <BaseFormField
         label={'이메일'}
         value={formFields['senderEmail']}
-        onChange={createChangeHanlder('senderEmail')}
+        onChange={createChangeHandler('senderEmail')}
       />
-      <OrderFormField
+      <BaseFormField
         label={'연락처'}
         value={formFields['senderPhone']}
-        onChange={createChangeHanlder('senderPhone')}
+        onChange={createChangeHandler('senderPhone')}
       />
     </div>
   )
