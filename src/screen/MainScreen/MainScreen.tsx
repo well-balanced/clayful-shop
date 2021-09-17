@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { MAIN_BANNER_IMG_URL } from 'constants/images'
+import { MAIN_BANNER_IMG_URL } from 'constant'
 import useSWR from 'swr'
 import { useState, useEffect } from 'react'
 import { Payload as ProductsPayload } from 'pages/api/products'

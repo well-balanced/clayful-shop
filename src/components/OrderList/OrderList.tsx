@@ -39,7 +39,9 @@ const orderListStyle = css`
 export default function OrderList({ orders }: OrderListProps) {
   return (
     <div css={rootStyle}>
-      <div css={titleStyle}>주문리스트</div>
+      <div id="orderList" css={titleStyle}>
+        주문리스트
+      </div>
       <div css={orderListStyle}>
         <div css={labelStyle}>
           <div style={{ width: '75px' }}>상품 이미지</div>

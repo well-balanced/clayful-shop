@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { clayfulGet } from 'utils/clayful'
-import { extractToken } from 'auth'
 import { Order } from 'types/order'
 
 export interface Payload {

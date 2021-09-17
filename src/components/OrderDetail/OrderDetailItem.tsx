@@ -1,8 +1,7 @@
 import React from 'react'
-import { Order } from 'types/order'
 import { css } from '@emotion/react'
 import Router from 'next/router'
-import { orderState } from 'constant'
+import { OrderItem as IOrderItem } from 'types/order'
 
 const rootStyle = css`
   > * {
@@ -15,7 +14,7 @@ const rootStyle = css`
   &:hover {
     cursor: pointer;
   }
-  color: #666666;
+  color: #444444;
 `
 
 const thumbnailStyle = (url: string) => css`
@@ -31,21 +30,24 @@ const thumbnailStyle = (url: string) => css`
 `
 
 interface OrderItemProps {
-  order: Order
+  item: IOrderItem
 }
 
-export default function OrderItem({ order }: OrderItemProps) {
+export default function OrderItem({ item }: OrderItemProps) {
   const onItemClick = () => {
-    Router.push(`/orders/${order._id}`)
+    Router.push(`/orders/${item._id}`)
   }
   return (
     <div css={rootStyle} onClick={onItemClick}>
-      <div css={thumbnailStyle(order.items[0].product.thumbnail.url)} />
-      <div style={{ width: '150px' }}>{order._id}</div>
-      <div style={{ width: '100px' }}> {orderState[order.status]}</div>
-      <div style={{ width: '200px' }}>{order.items[0].product.name}</div>
-      <div style={{ width: '100px' }}> {order.total.amount.formatted}</div>
-      <div style={{ width: '200px' }}> {order.createdAt.formatted}</div>
+      <div css={thumbnailStyle(item.product.thumbnail.url)} />
+      <div style={{ width: '200px' }}>{item.product.name}</div>
+      <div style={{ width: '100px' }}>
+        {item.variant.types.map(type => type.variation.value).join(' ')}
+      </div>
+      <div style={{ width: '200px' }}> {item.quantity.formatted}</div>
+      <div style={{ width: '100px' }}>
+        {item.total.price.original.formatted}
+      </div>
     </div>
   )
 }

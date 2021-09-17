@@ -20,15 +20,25 @@ interface OrderDetailScreenProps {
 }
 
 export default function OrderDetailScreen({ order }: OrderDetailScreenProps) {
-  const onRefundButtonClick = () => {
+  const onRefundButtonClick = async () => {
     /**
      * TODO: use refund API
      */
+    const body = JSON.stringify({
+      items: order.items.map(item => ({
+        item: item._id,
+        quantity: item.quantity.raw,
+      })),
+      shipments: order.shipments.map(shipment => shipment._id),
+    })
+    const data = await fetch(`/api/orders/${order._id}/refunds`, {
+      method: 'POST',
+      body,
+    })
   }
   return (
     <div css={rootStyle}>
-      <div css={titleStyle}>주문내역서</div>
-      {JSON.stringify(order)}
+      <div css={titleStyle}>주문 상세</div>
       <OrderDetail order={order} />
       <BaseButton onClick={onRefundButtonClick}>환불 요청</BaseButton>
     </div>

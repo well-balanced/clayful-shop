@@ -7,6 +7,7 @@ import SenderFields from './SenderFields'
 import PaymentFields from './PaymentFields'
 import BaseButton from 'components/BaseButton'
 import { css } from '@emotion/react'
+import Router from 'next/router'
 
 const rootStyle = css`
   width: 100%;
@@ -22,7 +23,7 @@ const flexBoxStyle = css`
 
 export default function OrderForm() {
   const { formFields } = useOrderFormState()
-  const onOrderSubmit = () => {
+  const onOrderSubmit = async () => {
     const body = {
       currency: 'KRW',
       paymentMethod: 'bank-transfer',
@@ -35,7 +36,7 @@ export default function OrderForm() {
           },
           postcode: formFields['zipCode'],
           country: 'KR',
-          city: '서울특별시',
+          city: formFields['city'],
           address1: formFields['additionalShippingAddress'],
           phone: formFields['receiverPhone'],
         },
@@ -47,16 +48,18 @@ export default function OrderForm() {
           },
           postcode: formFields['zipCode'],
           country: 'KR',
-          city: '서울특별시',
+          city: formFields['city'],
           address1: formFields['additionalShippingAddress'],
           phone: formFields['senderPhone'],
         },
       },
     }
-    fetch(`${NEXT_PUBLIC_API_URL}/api/checkout`, {
+    const { statusCode } = await fetch(`${NEXT_PUBLIC_API_URL}/api/checkout`, {
       method: 'POST',
       body: JSON.stringify(body),
-    })
+    }).then(r => r.json())
+
+    if (statusCode === 201) Router.push('/orders/thanks')
   }
   return (
     <div css={rootStyle}>

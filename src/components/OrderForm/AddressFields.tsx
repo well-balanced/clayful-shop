@@ -18,6 +18,11 @@ export default function AddressFields() {
         onChange={createChangeHandler('additionalShippingAddress')}
       />
       <BaseFormField
+        label={'도시 (시 혹은 도)'}
+        value={formFields['city']}
+        onChange={createChangeHandler('city')}
+      />
+      <BaseFormField
         label={'우편번호'}
         value={formFields['zipCode']}
         onChange={createChangeHandler('zipCode')}

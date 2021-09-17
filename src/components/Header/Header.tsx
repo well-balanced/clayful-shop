@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import Link from 'next/link'
 import RightButtons from 'components/RightButtons'
-import { LOGO_IMG_URL } from 'constants/images'
+import { LOGO_IMG_URL } from 'constant'
 
 const rootStyle = css`
   margin: 0 auto;

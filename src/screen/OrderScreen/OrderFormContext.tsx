@@ -14,6 +14,7 @@ export interface OrderFormFields {
   zipCode: string
   paymentMethod: string
   requestMessage: string
+  city: string
 }
 
 const OrderFormContext = createContext({
@@ -53,6 +54,7 @@ export const OrderFormProvider: FC = ({ children }) => {
     zipCode: '',
     paymentMethod: '',
     requestMessage: '',
+    city: '',
   }
 
   const [formFields, createChangeHandler, _, setFormFields] =

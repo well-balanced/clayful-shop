@@ -9,6 +9,7 @@ import { ProductDetail } from 'types/product'
 import { BaseErrorBox } from 'components/ErrorBox'
 import { omit } from 'utils'
 import BaseButton from 'components/BaseButton'
+import Router from 'next/router'
 
 const totalPriceWrapperStyle = css`
   display: flex;
@@ -83,7 +84,7 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
     setTotal,
   ])
 
-  const handleOrderButtonClick = async () => {
+  const handleCartButtonClick = async () => {
     const promises = miniCartItems.map(item =>
       fetch('/api/cart/items', {
         method: 'POST',
@@ -97,7 +98,7 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
     )
 
     const results = await Promise.all(promises)
-    results.some(r => {
+    const hasErrors = results.some(r => {
       if (r.errorCode) {
         setErrorInfo({ open: true, errorCode: r.errorCode })
         setTimeout(() => setErrorInfo({ open: false, errorCode: null }), 1000)
@@ -105,9 +106,8 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
       }
       return false
     })
+    if (!hasErrors) Router.push('/cart')
   }
-
-  // const handleCartButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {}
   return (
     <div>
       {product?.options.map(option => (
@@ -132,8 +132,7 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
         </div>
       </div>
       <div css={buttonWrapperStyle}>
-        <BaseButton onClick={handleOrderButtonClick}>주문하기</BaseButton>
-        <BaseButton onClick={handleOrderButtonClick}>장바구니</BaseButton>
+        <BaseButton onClick={handleCartButtonClick}>장바구니</BaseButton>
       </div>
       <BaseErrorBox open={errorInfo.open} code={errorInfo.errorCode} />
     </div>

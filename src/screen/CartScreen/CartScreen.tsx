@@ -118,7 +118,7 @@ const CartScreen = () => {
     )
 
     await Promise.all(promises)
-    Router.push('/order')
+    Router.push('/orders')
   }
 
   return (

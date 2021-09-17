@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { ProductDetail } from 'types/product'
 import { useState } from 'react'
-import ProductDetailForm from './ProducDetailForm'
+import ProductDetailForm from './ProductDetailForm'
 import { PriceProvider } from './PriceContext'
 
 const productInfoStyle = css`

@@ -39,14 +39,14 @@ interface Order {
   status: string
   shipments: Shippment[]
   fulfillments: []
-  refunds: []
+  refunds: Refund[]
   transactions: Transaction[]
   meta: {}
   createdAt: ClayfulDate
   updatedAt: ClayfulDate
 }
 
-interface OrderItem {
+export interface OrderItem {
   total: {
     price: ClayfulFormattedPrice
     discounted: ClayfulPrice
@@ -124,4 +124,29 @@ interface Transaction {
   vbanks: []
   createdAt: ClayfulDate
   updatedAt: ClayfulDate
+}
+
+interface Refund {
+  _id: string
+  items: RefundItem[]
+  createdAt: ClayfulDate
+  status: string
+  total: {
+    price: {
+      withTax: ClayfulPrice
+    }
+  }
+}
+
+interface RefundItem {
+  price: ClayfulFormattedPrice
+  item: {
+    _id: string
+    type: string
+    product: ProductSummary
+    quantity: ClayfulFormat
+    type: string
+    variant: Variant
+    price: ClayfulFormattedPrice
+  }
 }

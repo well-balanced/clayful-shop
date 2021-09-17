@@ -21,7 +21,6 @@ const MyPageScreen = () => {
   const { data: orderData } = useSWR<OrderPayload>('/api/orders', url =>
     fetch(url).then(r => r.json()),
   )
-  console.log({ orderData })
 
   return (
     <div css={rootStyle}>
