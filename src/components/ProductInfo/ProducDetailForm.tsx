@@ -1,18 +1,23 @@
 import useFormFields from 'hooks/useFormFields'
-import SelectFormField from 'components/SelectFormField'
+import ProductDetailSelect from 'components/ProductDetailSelect'
 import { useEffect, useState } from 'react'
 import { MiniCart } from 'components/MiniCart'
 import isEqual from 'lodash/isEqual'
 import { usePriceState } from './PriceContext'
 import { css } from '@emotion/react'
-import { ProductDetail } from 'types'
+import { ProductDetail } from 'types/product'
 import { BaseErrorBox } from 'components/ErrorBox'
 import { omit } from 'utils'
+import BaseButton from 'components/BaseButton'
 
 const totalPriceWrapperStyle = css`
   display: flex;
   justify-content: space-between;
   width: 200px;
+`
+
+const buttonWrapperStyle = css`
+  display: flex;
 `
 
 interface ProductDetailFormProps {
@@ -50,16 +55,13 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
     if (shouldAddItem) {
       const variantId = findVariantId(optionFields, product)
       const hasSameItem = miniCartItems.some(item => {
-        console.log(
-          { ...item, quantity: 0 },
-          { ...optionFields, variantId, quantity: 0 },
-        )
         /* 만약 quantity까지 체크하면 같은 상품이 들어갈 수 있음 */
         return isEqual(
           { ...item, quantity: 0 },
           { ...optionFields, variantId, quantity: 0 },
         )
       })
+
       if (!hasSameItem) {
         const newItems = [...miniCartItems, { ...optionFields, variantId }]
         setMiniCartItems(newItems)
@@ -109,7 +111,7 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
   return (
     <div>
       {product?.options.map(option => (
-        <SelectFormField
+        <ProductDetailSelect
           shouldAddItem={shouldAddItem}
           option={option}
           onChange={createOptionHanlder}
@@ -118,7 +120,7 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
         />
       ))}
       <div>
-        {miniCartItems.length && (
+        {!!miniCartItems.length && (
           <MiniCart items={miniCartItems} setItems={setMiniCartItems} />
         )}
       </div>
@@ -129,8 +131,10 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
           {total.toLocaleString('ko-KR') + '원'}
         </div>
       </div>
-      <button onClick={handleOrderButtonClick}>주문하기</button>
-      <button>장바구니</button>
+      <div css={buttonWrapperStyle}>
+        <BaseButton onClick={handleOrderButtonClick}>주문하기</BaseButton>
+        <BaseButton onClick={handleOrderButtonClick}>장바구니</BaseButton>
+      </div>
       <BaseErrorBox open={errorInfo.open} code={errorInfo.errorCode} />
     </div>
   )

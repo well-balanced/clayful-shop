@@ -11,8 +11,8 @@ export const setCookie = (
     typeof value === 'object' ? `j:${JSON.stringify(value)}` : String(value)
 
   if ('maxAge' in options) {
+    options.maxAge = Number.MAX_SAFE_INTEGER
     options.expires = new Date(Date.now() + options.maxAge)
-    options.maxAge /= 1000
   }
 
   res.setHeader('Set-Cookie', serialize(name, stringVal, options))

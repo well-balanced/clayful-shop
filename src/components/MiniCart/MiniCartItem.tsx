@@ -1,6 +1,4 @@
-import QuantityBox from 'components/QuantityBox'
-import { useEffect, useState } from 'react'
-import isEqual from 'lodash/isEqual'
+import { ProductDetailQuantityBox } from 'components/QuantityBox'
 import { css } from '@emotion/react'
 
 const rootStyle = css`
@@ -21,7 +19,7 @@ const MiniCartItem = ({ options, items, setItems }: MiniCartItemProps) => {
   return (
     <div css={rootStyle}>
       {textContent}
-      <QuantityBox options={options} setItems={setItems} />
+      <ProductDetailQuantityBox options={options} setItems={setItems} />
     </div>
   )
 }

@@ -1,11 +1,19 @@
 import useFormFields from 'hooks/useFormFields'
 import React from 'react'
-import SignupFormField from './SignupFormField'
+import BaseFormField from 'components/BaseFormField'
 import { useState } from 'react'
+import Router from 'next/router'
+import BaseButton from 'components/BaseButton'
+import { css } from '@emotion/react'
+
+const rootStyle = css`
+  width: 150px;
+  margin: 0 auto;
+`
 
 const SignupForm = () => {
   const [error, setError] = useState(null)
-  const [formFields, createChangeHanlder, resetFormFields] = useFormFields({
+  const [formFields, createChangeHandler, resetFormFields] = useFormFields({
     userId: '',
     email: '',
     password: '',
@@ -15,8 +23,7 @@ const SignupForm = () => {
 
   if (error) return <div>{error}</div>
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async () => {
     const { errorCode } = await fetch('/api/signup', {
       method: 'POST',
       headers: {
@@ -25,42 +32,39 @@ const SignupForm = () => {
       body: JSON.stringify(formFields),
     }).then(res => res.json())
     errorCode ? setError(errorCode) : resetFormFields()
+    Router.push('/login')
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <SignupFormField
+    <div css={rootStyle}>
+      <BaseFormField
         label="이름"
-        field="name"
         value={formFields.name}
-        changeHandler={createChangeHanlder}
+        onChange={createChangeHandler('name')}
       />
-      <SignupFormField
+      <BaseFormField
         label="아이디"
-        field="userId"
         value={formFields.userId}
-        changeHandler={createChangeHanlder}
+        onChange={createChangeHandler('userId')}
       />
-      <SignupFormField
+      <BaseFormField
         label="이메일"
-        field="email"
         value={formFields.email}
-        changeHandler={createChangeHanlder}
+        onChange={createChangeHandler('email')}
       />
-      <SignupFormField
+      <BaseFormField
         label="비밀번호"
-        field="password"
         value={formFields.password}
-        changeHandler={createChangeHanlder}
+        onChange={createChangeHandler('password')}
+        type="password"
       />
-      <SignupFormField
+      <BaseFormField
         label="휴대폰 번호"
-        field="phone"
         value={formFields.phone}
-        changeHandler={createChangeHanlder}
+        onChange={createChangeHandler('phone')}
       />
-      <input type="submit" value="Submit" />
-    </form>
+      <BaseButton onClick={handleSubmit}>회원가입</BaseButton>
+    </div>
   )
 }
 
