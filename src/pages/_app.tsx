@@ -3,6 +3,7 @@ import Layout from 'components/Layout'
 import { css, Global } from '@emotion/react'
 import { UserInfoProvider } from 'context/UserInfoContext'
 import { CookiesProvider } from 'react-cookie'
+import { SnackbarProvider } from 'notistack'
 
 const globalStyle = css`
   html,
@@ -28,11 +29,13 @@ function MyApp(props: AppProps) {
     <>
       <Global styles={globalStyle} />
       <Layout>
-        <CookiesProvider>
-          <UserInfoProvider>
-            <Component {...pageProps} />
-          </UserInfoProvider>
-        </CookiesProvider>
+        <SnackbarProvider maxSnack={3}>
+          <CookiesProvider>
+            <UserInfoProvider>
+              <Component {...pageProps} />
+            </UserInfoProvider>
+          </CookiesProvider>
+        </SnackbarProvider>
       </Layout>
     </>
   )

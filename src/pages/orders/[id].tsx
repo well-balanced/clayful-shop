@@ -3,12 +3,13 @@ import OrderDetailScreen from 'screen/OrderDetailScreen'
 import { clayfulGet } from 'utils/clayful'
 import { GetServerSideProps } from 'next'
 import { Order } from 'types/order'
+import { BaseErrorBox } from 'components/ErrorBox'
 
 const OrderDetailPage: NextPage<keyof GetServerSideProps> = ({
   order,
   err,
 }) => {
-  if (err) return <div>{err}</div>
+  if (err) return <BaseErrorBox open={true} code={err} />
   return <OrderDetailScreen order={order} />
 }
 

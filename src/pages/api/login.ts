@@ -15,6 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
     ...(userId.includes('@') ? { email: userId } : { userId }),
     password,
   })
+  console.log({ payload })
   if (payload.data && !req.cookies['token']) {
     setCookie(res, 'token', payload.data.token)
   }

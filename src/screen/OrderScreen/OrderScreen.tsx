@@ -7,6 +7,7 @@ import { ClayfulTotalPrice } from 'types/common'
 import { CheckoutCartItem } from 'components/CartItem'
 import { useOrderFormState } from './OrderFormContext'
 import OrderForm from 'components/OrderForm/OrderForm'
+import { useSnackbar } from 'notistack'
 
 const rootStyle = css`
   width: 952px;
@@ -42,9 +43,9 @@ const titleStyle = css`
 `
 
 const OrderScreen = () => {
+  const { enqueueSnackbar } = useSnackbar()
   const [cartItems, setCartItems] = useState<CartItem[]>(null)
   const [total, setTotal] = useState<ClayfulTotalPrice>(null)
-  const [errorCode, setErrorCode] = useState(null)
   const { formFields } = useOrderFormState()
 
   const fetchCartItmes = async () => {
@@ -64,7 +65,7 @@ const OrderScreen = () => {
     }
 
     if (!cartItems || shouldAttachBody) {
-      const { data, errorCode: err }: CartPayload = await fetch(
+      const { data, errorCode }: CartPayload = await fetch(
         `${NEXT_PUBLIC_API_URL}/api/cart`,
         {
           method: 'POST',
@@ -75,17 +76,21 @@ const OrderScreen = () => {
         },
       ).then(res => res.json())
 
-      if (data) {
-        setCartItems(data.cart.items)
-        setTotal(data.cart.total)
+      if (errorCode) {
+        return enqueueSnackbar(
+          '서버 응답이 올바르지 않습니다. 관리자에게 문의해주세요.',
+          { variant: 'error' },
+        )
       }
 
-      err && setErrorCode(err)
+      setCartItems(data.cart.items)
+      setTotal(data.cart.total)
     }
   }
 
   useEffect(() => {
     fetchCartItmes()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formFields['shippingAddress']])
 
   return (

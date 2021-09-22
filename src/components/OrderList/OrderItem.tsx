@@ -38,6 +38,9 @@ export default function OrderItem({ order }: OrderItemProps) {
   const onItemClick = () => {
     Router.push(`/orders/${order._id}`)
   }
+  /**
+   * TODO: check items indices
+   */
   return (
     <div css={rootStyle} onClick={onItemClick}>
       <div css={thumbnailStyle(order.items[0].product.thumbnail.url)} />

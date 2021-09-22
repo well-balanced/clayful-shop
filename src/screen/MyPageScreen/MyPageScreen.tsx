@@ -10,9 +10,6 @@ const rootStyle = css`
   margin: 0 auto;
 `
 
-/**
- * TODO: splice 메소드 삭제
- */
 const MyPageScreen = () => {
   const { data: userData } = useSWR<UserPayload>('/api/me', url =>
     fetch(url).then(r => r.json()),

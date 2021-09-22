@@ -21,6 +21,7 @@
     "cookie": "^0.4.1",
     "lodash": "^4.17.21",
     "next": "11.0.1",
+    "notistack": "^1.0.10",
     "react": "17.0.2",
     "react-cookie": "^4.1.1",
     "react-dom": "17.0.2",

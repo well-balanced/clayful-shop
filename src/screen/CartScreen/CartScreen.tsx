@@ -6,6 +6,7 @@ import { NEXT_PUBLIC_API_URL } from 'utils/config'
 import { Payload as CartPayload } from 'pages/api/cart'
 import Router from 'next/router'
 import BaseButton from 'components/BaseButton'
+import { useSnackbar } from 'notistack'
 
 const rootStyle = css`
   width: 952px;
@@ -51,11 +52,12 @@ const totalPriceStyle = css`
 
 const CartScreen = () => {
   const [data, setData] = useState(null)
-  const [errorCode, setErrorCode] = useState(null)
+  const { enqueueSnackbar } = useSnackbar()
   const { pricings, total, setTotal, setPricings } = usePricingState()
   const fetchCartItmes = async () => {
-    if (data || errorCode) return
-    const { data: fetched, errorCode: err }: CartPayload = await fetch(
+    if (data) return
+
+    const { data: fetched, errorCode }: CartPayload = await fetch(
       `${NEXT_PUBLIC_API_URL}/api/cart`,
       {
         method: 'POST',
@@ -65,32 +67,35 @@ const CartScreen = () => {
       },
     ).then(res => res.json())
 
-    if (fetched) {
-      setData(fetched)
-      const newPricings = fetched.cart.items.map(item => ({
-        productId: item.product._id,
-        variantId: item.variant._id,
-        quantity: item.quantity.raw,
-        price: item.price.original.raw / item.quantity.raw,
-        totalPrice: item.price.original.raw,
-        shippingMethodId: item.shippingMethod._id,
-      }))
-      setPricings(newPricings)
-      setTotal(
-        newPricings.reduce(
-          (prev, curr) => prev + curr.price * curr.quantity,
-          0,
-        ),
+    if (errorCode) {
+      return enqueueSnackbar(
+        '서버 응답이 올바르지 않습니다. 관리자에게 문의해주세요.',
+        {
+          variant: 'error',
+        },
       )
     }
-    setErrorCode(err)
+
+    const newPricings = fetched.cart.items.map(item => ({
+      productId: item.product._id,
+      variantId: item.variant._id,
+      quantity: item.quantity.raw,
+      price: item.price.original.raw / item.quantity.raw,
+      totalPrice: item.price.original.raw,
+      shippingMethodId: item.shippingMethod._id,
+    }))
+    setPricings(newPricings)
+    setData(fetched)
+    setTotal(
+      newPricings.reduce((prev, curr) => prev + curr.price * curr.quantity, 0),
+    )
   }
 
   useEffect(() => {
     fetchCartItmes()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, errorCode])
+  }, [data])
 
   const onDeleteAllClick = async () => {
     await fetch(`${NEXT_PUBLIC_API_URL}/api/cart/items`, {

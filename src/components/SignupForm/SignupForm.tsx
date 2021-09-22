@@ -1,10 +1,10 @@
 import useFormFields from 'hooks/useFormFields'
 import React from 'react'
 import BaseFormField from 'components/BaseFormField'
-import { useState } from 'react'
 import Router from 'next/router'
 import BaseButton from 'components/BaseButton'
 import { css } from '@emotion/react'
+import { useSnackbar } from 'notistack'
 
 const rootStyle = css`
   width: 150px;
@@ -12,7 +12,7 @@ const rootStyle = css`
 `
 
 const SignupForm = () => {
-  const [error, setError] = useState(null)
+  const { enqueueSnackbar } = useSnackbar()
   const [formFields, createChangeHandler, resetFormFields] = useFormFields({
     userId: '',
     email: '',
@@ -20,8 +20,6 @@ const SignupForm = () => {
     name: '',
     phone: '',
   })
-
-  if (error) return <div>{error}</div>
 
   const handleSubmit = async () => {
     const { errorCode } = await fetch('/api/signup', {
@@ -31,7 +29,14 @@ const SignupForm = () => {
       },
       body: JSON.stringify(formFields),
     }).then(res => res.json())
-    errorCode ? setError(errorCode) : resetFormFields()
+
+    if (errorCode) {
+      resetFormFields()
+      return enqueueSnackbar('올바르지 않은 아이디 혹은 비밀번호입니다.', {
+        variant: 'error',
+      })
+    }
+
     Router.push('/login')
   }
 

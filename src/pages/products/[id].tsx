@@ -3,12 +3,13 @@ import { clayfulGet } from 'utils/clayful'
 import { ProductDetail } from 'types/product'
 import ProductDetailScreen from 'screen/ProductDetailScreen'
 import type { NextPage } from 'next'
+import { BaseErrorBox } from 'components/ErrorBox'
 
 const ProductDetailPage: NextPage<keyof GetServerSideProps> = ({
   product,
   err,
 }) => {
-  if (err) return <div>{err}</div>
+  if (err) return <BaseErrorBox open={true} code={err} />
   return <ProductDetailScreen product={product} />
 }
 

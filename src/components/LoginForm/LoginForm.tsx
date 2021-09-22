@@ -1,11 +1,11 @@
 import useFormFields from 'hooks/useFormFields'
 import React from 'react'
 import BaseFormField from 'components/BaseFormField'
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
 import BaseButton from 'components/BaseButton'
 import { css } from '@emotion/react'
+import { useSnackbar } from 'notistack'
 
 const rootStyle = css`
   width: 150px;
@@ -14,14 +14,12 @@ const rootStyle = css`
 
 const LoginForm = () => {
   const router = useRouter()
+  const { enqueueSnackbar } = useSnackbar()
   const [, setCookie] = useCookies(['isAuth'])
-  const [error, setError] = useState(null)
-  const [formFields, createChangeHandler] = useFormFields({
+  const [formFields, createChangeHandler, resetFormFields] = useFormFields({
     userId: '',
     password: '',
   })
-
-  if (error) return <div>{error}</div>
 
   const handleSubmit = async () => {
     const { errorCode } = await fetch('/api/login', {
@@ -31,7 +29,15 @@ const LoginForm = () => {
       },
       body: JSON.stringify(formFields),
     }).then(res => res.json())
-    errorCode ? setError(errorCode) : router.push('/')
+
+    if (errorCode) {
+      resetFormFields()
+      return enqueueSnackbar('올바르지 않은 아이디 혹은 비밀번호입니다.', {
+        variant: 'error',
+      })
+    }
+
+    router.push('/')
     setCookie('isAuth', true, { maxAge: Number.MAX_SAFE_INTEGER })
   }
 

@@ -6,10 +6,10 @@ import isEqual from 'lodash/isEqual'
 import { usePriceState } from './PriceContext'
 import { css } from '@emotion/react'
 import { ProductDetail } from 'types/product'
-import { BaseErrorBox } from 'components/ErrorBox'
 import { omit } from 'utils'
 import BaseButton from 'components/BaseButton'
 import Router from 'next/router'
+import { useSnackbar } from 'notistack'
 
 const totalPriceWrapperStyle = css`
   display: flex;
@@ -26,7 +26,8 @@ interface ProductDetailFormProps {
 }
 
 const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
-  const [errorInfo, setErrorInfo] = useState({ open: false, errorCode: null })
+  console.log({ product })
+  const { enqueueSnackbar } = useSnackbar()
   const [miniCartItems, setMiniCartItems] = useState([])
   const defaultValue = '옵션을 선택해주세요'
   const defaultQuantity = 1
@@ -98,15 +99,15 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
     )
 
     const results = await Promise.all(promises)
-    const hasErrors = results.some(r => {
-      if (r.errorCode) {
-        setErrorInfo({ open: true, errorCode: r.errorCode })
-        setTimeout(() => setErrorInfo({ open: false, errorCode: null }), 1000)
-        return true
-      }
-      return false
-    })
-    if (!hasErrors) Router.push('/cart')
+    const hasErrors = results.some(r => (r.errorCode ? true : false))
+    if (hasErrors) {
+      return enqueueSnackbar(
+        '알 수 없는 에러가 발생했습니다. 관리자에게 문의해주세요.',
+        { variant: 'error' },
+      )
+    }
+
+    Router.push('/cart')
   }
   return (
     <div>
@@ -134,7 +135,6 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
       <div css={buttonWrapperStyle}>
         <BaseButton onClick={handleCartButtonClick}>장바구니</BaseButton>
       </div>
-      <BaseErrorBox open={errorInfo.open} code={errorInfo.errorCode} />
     </div>
   )
 }

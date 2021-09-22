@@ -27,7 +27,7 @@ export default function ProfileForm({
         label={'이메일'}
         value={fields['email']}
         onChange={createChangeHandler('email')}
-        disabled={disabled}
+        disabled={true}
       />
       <BaseFormField
         label={'연락처'}

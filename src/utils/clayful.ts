@@ -4,7 +4,7 @@ import logger from 'logger'
 
 const instance = axios.create({
   baseURL: CLAYFUL_API_URL + '/v1',
-  timeout: 3000,
+  timeout: 10 * 1000,
   headers: {
     Authorization: `Bearer ${CLAYFUL_ACCESS_TOKEN}`,
     'Accept-Encoding': 'gzip',
@@ -24,9 +24,9 @@ export const clayfulGet = async <T>(
 ): Promise<GetPayload<T>> => {
   try {
     const res = await instance.get(path, config)
-    return { data: res.data, statusCode: res.status }
+    return { data: res?.data, statusCode: res.status }
   } catch (e) {
-    const { errorCode, statusCode, message } = e.response.data
+    const { errorCode, statusCode, message } = e.response?.data
     logger.http(message)
     return { errorCode, statusCode }
   }
@@ -45,9 +45,30 @@ export const clayfulPost = async <T>(
 ): Promise<PostPayload<T>> => {
   try {
     const res = await instance.post(path, data, config)
-    return { data: res.data, statusCode: res.status }
+    return { data: res?.data, statusCode: res.status }
   } catch (e) {
-    const { errorCode, statusCode, message } = e.response.data
+    const { errorCode, statusCode, message } = e.response?.data
+    logger.http(message)
+    return { errorCode, statusCode }
+  }
+}
+
+interface PutPayload<T> {
+  data?: T
+  errorCode?: string
+  statusCode: number
+}
+
+export const clayfulPut = async <T>(
+  path: string,
+  data?: any,
+  config?: AxiosRequestConfig,
+): Promise<PutPayload<T>> => {
+  try {
+    const res = await instance.put(path, data, config)
+    return { data: res?.data, statusCode: res.status }
+  } catch (e) {
+    const { errorCode, statusCode, message } = e.response?.data
     logger.http(message)
     return { errorCode, statusCode }
   }
@@ -63,7 +84,7 @@ export const clayfulDelete = async (path, config): Promise<DeletePayload> => {
     const res = await instance.delete(path, config)
     return { statusCode: res.status }
   } catch (e) {
-    const { errorCode, statusCode, message } = e.response.data
+    const { errorCode, statusCode, message } = e.response?.data
     logger.http(message)
     return { errorCode, statusCode }
   }
