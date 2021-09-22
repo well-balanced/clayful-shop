@@ -8,13 +8,14 @@ const rootStyle = css`
 
 interface MiniCartItemProps {
   options: any
-  items: any[]
   setItems: (arg: any) => void
 }
 
-const MiniCartItem = ({ options, items, setItems }: MiniCartItemProps) => {
-  const textContent = Object.values(options).reduce((prev, curr, idx) => {
-    return idx ? `${prev} ${curr}` : ''
+const MiniCartItem = ({ options, setItems }: MiniCartItemProps) => {
+  const textContent = Object.entries(options).reduce((prev, curr) => {
+    const [k, v] = curr
+    const ignoreKeys = ['quantity', 'variantId']
+    return ignoreKeys.includes(k) ? prev : `${prev} ${v}`
   }, '')
   return (
     <div css={rootStyle}>

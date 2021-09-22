@@ -26,7 +26,6 @@ interface ProductDetailFormProps {
 }
 
 const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
-  console.log({ product })
   const { enqueueSnackbar } = useSnackbar()
   const [miniCartItems, setMiniCartItems] = useState([])
   const defaultValue = '옵션을 선택해주세요'
@@ -48,10 +47,11 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
    * 모든 필드를 입력하면 미니카트에 항목이 담긴다.
    */
   const values = Object.values(omit(optionFields, 'quantity'))
-  const shouldAddItem =
-    values.length &&
-    // @ts-ignore
-    values.every(val => ![null, undefined, defaultValue].includes(val))
+  const shouldAddItem = !product?.options.length
+    ? true
+    : values.length &&
+      // @ts-ignore
+      values.every(val => ![null, undefined, defaultValue].includes(val))
 
   useEffect(() => {
     if (shouldAddItem) {
@@ -75,15 +75,8 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
       }
       resetOptionFields()
     }
-  }, [
-    shouldAddItem,
-    miniCartItems,
-    optionFields,
-    price,
-    product,
-    resetOptionFields,
-    setTotal,
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldAddItem, miniCartItems, price, product])
 
   const handleCartButtonClick = async () => {
     const promises = miniCartItems.map(item =>
@@ -109,6 +102,7 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
 
     Router.push('/cart')
   }
+
   return (
     <div>
       {product?.options.map(option => (

@@ -8,13 +8,8 @@ interface MiniCartProps {
 const MiniCart = ({ items, setItems }: MiniCartProps) => {
   return (
     <div>
-      {items.map((options, idx, items) => (
-        <MiniCartItem
-          options={options}
-          items={items}
-          setItems={setItems}
-          key={idx}
-        />
+      {items.map((options, idx) => (
+        <MiniCartItem options={options} setItems={setItems} key={idx} />
       ))}
     </div>
   )
