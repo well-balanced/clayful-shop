@@ -17,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
       headers,
       method: 'DELETE',
     })
-    return res.status(payload.statusCode).json({})
+    return res.status(payload.statusCode).end()
   }
 
   const payload = await clayfulPost('/me/cart/items', req.body, { headers })
