@@ -10,6 +10,7 @@ import { omit } from 'utils'
 import BaseButton from 'components/BaseButton'
 import Router from 'next/router'
 import { useSnackbar } from 'notistack'
+import { useCookies } from 'react-cookie'
 
 const totalPriceWrapperStyle = css`
   display: flex;
@@ -27,6 +28,7 @@ interface ProductDetailFormProps {
 
 const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
   const { enqueueSnackbar } = useSnackbar()
+  const [cookies] = useCookies(['isAuth'])
   const [miniCartItems, setMiniCartItems] = useState([])
   const defaultValue = '옵션을 선택해주세요'
   const defaultQuantity = 1
@@ -79,6 +81,10 @@ const ProductDetailForm = ({ product }: ProductDetailFormProps) => {
   }, [shouldAddItem, miniCartItems, price, product])
 
   const handleCartButtonClick = async () => {
+    if (!cookies?.isAuth) {
+      return Router.push('/login')
+    }
+
     const promises = miniCartItems.map(item =>
       fetch('/api/cart/items', {
         method: 'POST',
