@@ -120,8 +120,6 @@ src
 
 ## 페이지 및 API 구성 (Router)
 
-(페이지 및 API 구조 및 역할을 간략하게 작성해주세요.)
-
 - `/` 메인 페이지
 - `/products` 상품 목록 페이지
 - `/products/{productId}` 상품 상세 페이지
