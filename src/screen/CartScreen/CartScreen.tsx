@@ -100,9 +100,6 @@ const CartScreen = () => {
   const onDeleteAllClick = async () => {
     await fetch(`${NEXT_PUBLIC_API_URL}/api/cart/items`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
     })
     setPricings([])
     setTotal(0)
