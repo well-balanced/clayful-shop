@@ -12,8 +12,6 @@ a product for the onboarding process
 - [x] 마이 페이지
 - [x] 주문 상세 페이지
 
-프로젝트 진행: 김우식 (iam.woosik.kim@sixshop.com)
-
 
 ## 사용 언어 및 스택
 
@@ -134,7 +132,3 @@ src
 - `/login` 로그인 페이지
 - `/signup` 회원가입 페이지
 - `/me` 마이 페이지
-
-## 온보딩 프로젝트 후기
-
-(좋았던 점, 아쉬웠던 점, 그 외 생각해보고 느꼈던 점 등을 공유해주세요.)
