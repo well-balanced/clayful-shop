@@ -94,6 +94,8 @@ src
 └───utils
 ```
 
+### 폴더 및 파일 상세설명
+
 - `screen` 라우팅되는 각 페이지별로 보여줘야할 화면 컴포넌트
 - `components` 화면(screen)을 구성하는 UI 요소들의 집합
 - `context` props drilling을 방지하기 위해 만드는 context들의 집합
