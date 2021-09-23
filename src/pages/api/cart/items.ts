@@ -10,17 +10,17 @@ interface Payload {
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
   const token = extractToken(req)
+  const headers = { 'Authorization-Customer': token }
+
   if (req.method === 'DELETE') {
     const payload = await clayfulDelete('/me/cart/items', {
-      headers: { 'Authorization-Customer': token },
+      headers,
       method: 'DELETE',
     })
     return res.status(payload.statusCode).json({})
   }
 
-  const payload = await clayfulPost('/me/cart/items', req.body, {
-    headers: { 'Authorization-Customer': token },
-  })
+  const payload = await clayfulPost('/me/cart/items', req.body, { headers })
   return res.status(payload.statusCode).json({})
 }
 
