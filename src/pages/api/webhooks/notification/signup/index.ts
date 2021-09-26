@@ -6,7 +6,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   await axios.post(WEBHOOK_URL, {
     text: '신규 고객 가입 완료',
   })
-  return res.status(200)
+  return res.status(200).end()
 }
 
 export default handler
