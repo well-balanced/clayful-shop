@@ -23,7 +23,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Payload>) {
 
   const payload = await clayfulGet<ProductList>('/products', {
     params: {
-      limit: 6,
       fields: fields.join(','),
       page: req.query.page,
       q: '[iwgh]',

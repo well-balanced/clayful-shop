@@ -13,20 +13,16 @@ const gridContainerStyle = css`
 interface ProductGridProps {
   products: ProductList
   pageSize?: number
-  onLoadMore: (e: any) => void
 }
 
-const ProductGrid = ({ products, onLoadMore }: ProductGridProps) => {
+const ProductGrid = ({ products }: ProductGridProps) => {
   return (
     <div>
-      <div></div>
-      <InfiniteScroll loadMore={onLoadMore} hasMore={true}>
-        <div css={gridContainerStyle}>
-          {products.map(product => (
-            <ProductCard product={product} key={product._id} />
-          ))}
-        </div>
-      </InfiniteScroll>
+      <div css={gridContainerStyle}>
+        {products.map(product => (
+          <ProductCard product={product} key={product._id} />
+        ))}
+      </div>
     </div>
   )
 }

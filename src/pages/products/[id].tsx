@@ -1,11 +1,11 @@
-import { GetServerSideProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import { clayfulGet } from 'utils/clayful'
 import { ProductDetail } from 'types/product'
 import ProductDetailScreen from 'screen/ProductDetailScreen'
 import type { NextPage } from 'next'
 import { BaseErrorBox } from 'components/ErrorBox'
 
-const ProductDetailPage: NextPage<keyof GetServerSideProps> = ({
+const ProductDetailPage: NextPage<keyof GetStaticProps> = ({
   product,
   err,
 }) => {
@@ -15,7 +15,14 @@ const ProductDetailPage: NextPage<keyof GetServerSideProps> = ({
 
 export default ProductDetailPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  }
+}
+
+export const getStaticProps: GetStaticProps = async context => {
   const { id } = context.params
   const { data, errorCode } = await clayfulGet<ProductDetail>(`/products/${id}`)
   return {

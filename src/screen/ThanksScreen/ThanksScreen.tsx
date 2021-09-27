@@ -22,6 +22,7 @@ export default function ThanksScreen() {
   const onButtonClick = () => {
     Router.push('/me#orderList')
   }
+
   return (
     <div css={rootStyle}>
       <div css={titleStyle}>주문이 정상적으로 완료되었습니다.</div>

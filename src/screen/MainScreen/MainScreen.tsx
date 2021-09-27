@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { MAIN_BANNER_IMG_URL } from 'constant'
 import useSWR from 'swr'
-import { useState, useEffect } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { Payload as ProductsPayload } from 'pages/api/products'
 import ProductGrid from 'components/ProductGrid'
 
@@ -19,26 +19,15 @@ const mainSectionStyle = css`
   opacity: 0.7;
 `
 
-const MainScreen = () => {
-  const [page, setPage] = useState(1)
-  const [products, setProducts] = useState([])
+interface MainScreenProps {
+  products: any[]
+}
 
-  const { data } = useSWR<ProductsPayload>(`/api/products?page=${page}`, url =>
-    fetch(url).then(r => r.json()),
-  )
-
-  useEffect(() => {
-    data && setProducts([...products, ...data.data])
-  }, [data])
-
-  const fetchProducts = (e: any) => {
-    e.previousPosition && setPage(page + 1)
-  }
-
+const MainScreen: FC<MainScreenProps> = ({ products }) => {
   return (
     <div css={rootStyle}>
       <section css={mainSectionStyle}></section>
-      <ProductGrid products={products} onLoadMore={fetchProducts} />
+      <ProductGrid products={products} />
     </div>
   )
 }
