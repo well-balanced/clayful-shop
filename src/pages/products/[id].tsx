@@ -41,6 +41,5 @@ export const getStaticProps: GetStaticProps = async context => {
   const res = await clayfulGet<ProductDetail>(`/products/${id}`)
   return {
     props: { product: res.data, err: res.errorCode ? res.errorCode : null },
-    revalidate: 10,
   }
 }
