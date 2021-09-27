@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { clayfulGet } from 'utils/clayful'
-import { ProductDetail } from 'types/product'
+import { ProductDetail, ProductList } from 'types/product'
 import ProductDetailScreen from 'screen/ProductDetailScreen'
 import type { NextPage } from 'next'
 import { BaseErrorBox } from 'components/ErrorBox'
@@ -16,16 +16,31 @@ const ProductDetailPage: NextPage<keyof GetStaticProps> = ({
 export default ProductDetailPage
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const { data: products } = await clayfulGet<ProductList>('/products', {
+    params: {
+      q: '[iwgh]',
+      search: 'name.ko',
+      searchMatch: 'partial',
+    },
+  })
+
+  const paths = products.map(product => {
+    return {
+      params: { id: product._id },
+    }
+  })
+
   return {
-    paths: [],
-    fallback: true,
+    paths: paths,
+    fallback: false,
   }
 }
 
 export const getStaticProps: GetStaticProps = async context => {
   const { id } = context.params
-  const { data, errorCode } = await clayfulGet<ProductDetail>(`/products/${id}`)
+  const res = await clayfulGet<ProductDetail>(`/products/${id}`)
   return {
-    props: { product: data, err: errorCode ? errorCode : null },
+    props: { product: res.data, err: res.errorCode ? res.errorCode : null },
+    revalidate: 10,
   }
 }
