@@ -15,7 +15,7 @@ const rootStyle = css`
 const catalogImageStyle = defaultCatalogImgUrl => css`
   width: 500px;
   height: 500px;
-  background-image: url(${defaultCatalogImgUrl});
+  background-image: url(${defaultCatalogImgUrl + '?width=480&height=480'});
   background-repeat: no-repeat;
   background-size: 500px 500px;
   margin: 30px 0px 30px 0px;
